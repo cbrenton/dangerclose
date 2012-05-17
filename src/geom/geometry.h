@@ -2,6 +2,7 @@
 #define _GEOMETRY_H
 
 #include <vector>
+//#include "geom/transform.h"
 #include "glm/glm.hpp"
 
 #define EPSILON 0.01f
@@ -18,7 +19,7 @@ class Geometry
       virtual void setColor(glm::vec3 c);
       virtual void addTrans(Transform *t);
       virtual glm::vec3 getNormal(glm::vec3 *pt);
-   private:
+   protected:
       std::vector <Transform *> trans;
       glm::vec3 color;
 };

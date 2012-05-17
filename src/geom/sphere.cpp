@@ -1,4 +1,5 @@
 #include "geom/sphere.h"
+#include "geom/transform.h"
 
 using namespace glm;
 
@@ -14,6 +15,11 @@ Sphere::Sphere(float _rad) :
 
 float Sphere::dist(vec3 *pt)
 {
+   // TODO: Clean this shit up.
+   if (!trans.empty())
+   {
+      return (trans[0]->dist(pt));
+   }
    return length(*pt) - rad;
 }
 

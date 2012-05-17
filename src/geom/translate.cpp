@@ -20,6 +20,8 @@ Translate::Translate(Geometry *g, vec3 d) :
 
 float Translate::dist(vec3 *pt)
 {
+   // TODO: Clean this shit up, and fix it.
    vec3 m = vec3(transMat * vec4(*pt, 1.f));
+   // TODO: Segfaults here.
    return prim->dist(&m);
 }

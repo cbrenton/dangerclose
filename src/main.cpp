@@ -11,6 +11,7 @@
 #include "scene.h"
 #include "geom/geometry.h"
 #include "geom/sphere.h"
+#include "geom/translate.h"
 #include "glm/glm.hpp"
 
 #define DEFAULT_W 256
@@ -236,6 +237,8 @@ void initScene()
    Camera *cam = new Camera(loc, up, right, look_at);
    Sphere *sp = new Sphere(0.1f);
    sp->setColor(vec3(1.f, 0.f, 0.f));
+   Translate *myTranslate = new Translate(sp, vec3(1.f, 2.f, 1.f));
+   sp->addTrans(myTranslate);
    scene = new Scene();
    scene->setCam(cam);
    scene->addGeom(sp);
