@@ -12,16 +12,6 @@ Sphere::Sphere(float _rad) :
 {
 }
 
-/*
-float Sphere::transDist(vec3 *pt)
-{
-   float s = 2.f;
-   vec3 mod = *pt / s;
-   //mat4 m = rotate(mat4(1.f), 45.0, vec3(1.f, 0.f, 0.f));
-   return dist(&mod) * s;
-}
-*/
-
 float Sphere::dist(vec3 *pt)
 {
    return length(*pt) - rad;
@@ -30,4 +20,11 @@ float Sphere::dist(vec3 *pt)
 float Sphere::dist(vec3 &pt)
 {
    return length(pt) - rad;
+}
+
+vec3 Sphere::getNormal(vec3 *pt)
+{
+   // TODO: Make this involve transforms.
+   vec3 d = *pt;
+   return d;
 }

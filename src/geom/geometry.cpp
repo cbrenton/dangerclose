@@ -26,3 +26,8 @@ void Geometry::addTrans(Transform *t)
 {
    trans.push_back(t);
 }
+
+vec3 Geometry::getNormal(vec3 *pt)
+{
+   return vec3();
+}

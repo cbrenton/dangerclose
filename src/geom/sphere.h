@@ -9,9 +9,9 @@ class Sphere : public Geometry
       Sphere();
       Sphere(float _rad);
       ~Sphere() {};
-      //float transDist(glm::vec3 *pt);
       float dist(glm::vec3 *pt);
       float dist(glm::vec3 &pt);
+      glm::vec3 getNormal(glm::vec3 *pt);
    private:
       float rad;
 };

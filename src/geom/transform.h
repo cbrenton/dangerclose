@@ -11,7 +11,7 @@ class Transform : public Geometry
       Transform(Geometry *g);
       virtual ~Transform() {};
       virtual float dist(glm::vec3 *pt);
-   private:
+   protected:
       Geometry * prim;
 };
 
