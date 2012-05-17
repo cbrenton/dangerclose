@@ -24,7 +24,7 @@ ERROR = -Werror
 CFLAGS = $(OPTIMIZE) -Wall -c $(DEBUG) $(ERROR) $(IFLAGS)
 LDFLAGS = $(OPTIMIZE) $(DEBUG) $(ERROR) $(LFLAGS)
 
-TARGET = march
+TARGET = dangerzone
 INPUTEXT=pov
 INPUTDIR=input
 INPUTFILE=test
