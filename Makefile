@@ -1,6 +1,3 @@
-# Original SDL-GL-basic Makefile template written by Hans de Ruiter
-# Modified by Chris Brenton
-#
 # License:
 # This source code can be used and/or modified without restrictions.
 # It is provided as is and the author disclaims all warranties, expressed 
@@ -24,7 +21,7 @@ ERROR = -Werror
 CFLAGS = $(OPTIMIZE) -Wall -c $(DEBUG) $(ERROR) $(IFLAGS)
 LDFLAGS = $(OPTIMIZE) $(DEBUG) $(ERROR) $(LFLAGS)
 
-TARGET = dangerzone
+TARGET = dangerclose
 INPUTEXT=pov
 INPUTDIR=input
 INPUTFILE=test
