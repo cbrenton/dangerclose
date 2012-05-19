@@ -9,7 +9,11 @@
 
 #include <vector>
 #include "camera.h"
+#include "geom/box.h"
 #include "geom/geometry.h"
+#include "geom/rotate.h"
+#include "geom/sphere.h"
+#include "geom/translate.h"
 #include "glm/glm.hpp"
 
 class Scene

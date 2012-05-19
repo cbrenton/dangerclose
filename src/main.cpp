@@ -9,10 +9,6 @@
 #include "image.h"
 #include "ray.h"
 #include "scene.h"
-#include "geom/geometry.h"
-#include "geom/sphere.h"
-#include "geom/translate.h"
-#include "geom/rotate.h"
 #include "glm/glm.hpp"
 
 #define DEFAULT_W 256
@@ -248,14 +244,19 @@ void initScene()
    sp->setColor(vec3(1.f, 0.f, 0.f));
    Sphere *sp2 = new Sphere(0.1f);
    sp2->setColor(vec3(0.f, 1.f, 0.f));
+   Box *b = new Box(0.075f);
+   b->setColor(vec3(0.f, 0.f, 1.f));
    // Transform definitions.
    Translate *myTranslate = new Translate(vec3(0.1f, 0.f, -1.6f));
    Rotate *myRotate = new Rotate(10.f, vec3(0.0f, 1.f, 0.0f));
+   Rotate *myRotate2 = new Rotate(15.f, vec3(0.0f, 1.f, 0.0f));
    sp->addTrans(myTranslate);
    sp->addTrans(myRotate);
+   b->addTrans(myRotate2);
    // Scene definition.
    scene = new Scene();
    scene->setCam(cam);
    scene->addGeom(sp);
    scene->addGeom(sp2);
+   scene->addGeom(b);
 }
