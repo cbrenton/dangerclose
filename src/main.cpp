@@ -12,6 +12,7 @@
 #include "geom/geometry.h"
 #include "geom/sphere.h"
 #include "geom/translate.h"
+#include "geom/rotate.h"
 #include "glm/glm.hpp"
 
 #define DEFAULT_W 256
@@ -249,7 +250,9 @@ void initScene()
    sp2->setColor(vec3(0.f, 1.f, 0.f));
    // Transform definitions.
    Translate *myTranslate = new Translate(vec3(0.1f, 0.f, -1.6f));
+   Rotate *myRotate = new Rotate(10.f, vec3(0.0f, 1.f, 0.0f));
    sp->addTrans(myTranslate);
+   sp->addTrans(myRotate);
    // Scene definition.
    scene = new Scene();
    scene->setCam(cam);
