@@ -17,8 +17,8 @@ class Geometry
    public:
       Geometry() {};
       virtual ~Geometry();
+      virtual float getDist(glm::vec3 *pt);
       virtual float dist(glm::vec3 *pt);
-      virtual float pureDist(glm::vec3 *pt);
       virtual glm::vec3 getColor(glm::vec3 *pt);
       virtual void setColor(glm::vec3 c);
       virtual void addTrans(Transform *t);

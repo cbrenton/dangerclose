@@ -17,12 +17,10 @@
 class Translate : public Transform
 {
    public:
-      Translate() {};
-      Translate(Geometry *g);
-      Translate(Geometry *g, glm::vec3 d);
+      Translate();
+      Translate(glm::vec3 d);
       ~Translate() {};
       float dist(glm::vec3 *pt);
-      float pureDist(glm::vec3 *pt);
       void debug();
    private:
       glm::mat4 transMat;

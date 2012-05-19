@@ -7,13 +7,20 @@ Geometry::~Geometry()
 {
 }
 
-float Geometry::pureDist(vec3 *pt)
+float Geometry::getDist(vec3 *pt)
 {
-   return 0.f;
+   // If the transform vector is not empty, find the getDistance through the
+   // transforms.
+   if (!trans.empty())
+   {
+      return (trans.back()->dist(pt));
+   }
+   return dist(pt);
 }
 
 float Geometry::dist(vec3 *pt)
 {
+   printf("Should never be here. You must have forgotten to add a dist() function to a Geometry subclass.\n");
    return 0.f;
 }
 
@@ -29,6 +36,14 @@ void Geometry::setColor(vec3 c)
 
 void Geometry::addTrans(Transform *t)
 {
+   if (trans.empty())
+   {
+      t->setPrim(this);
+   }
+   else
+   {
+      t->setPrim(trans.back());
+   }
    trans.push_back(t);
 }
 

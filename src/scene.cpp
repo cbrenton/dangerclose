@@ -28,7 +28,7 @@ float Scene::closestDist(vec3 *pt, float max, vec3 *colorOut)
    vec3 color;
    for (int ndx = 0; ndx < (int)gVec.size(); ndx++)
    {
-      float curDist = gVec[ndx]->dist(pt);
+      float curDist = gVec[ndx]->getDist(pt);
       if (curDist < closest && curDist >= 0.f)
       {
          closest = curDist;

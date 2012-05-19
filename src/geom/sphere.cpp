@@ -13,19 +13,9 @@ Sphere::Sphere(float _rad) :
 {
 }
 
-float Sphere::pureDist(vec3 *pt)
-{
-   return length(*pt) - rad;
-}
-
 float Sphere::dist(vec3 *pt)
 {
-   // TODO: Clean this shit up.
-   if (!trans.empty())
-   {
-      return (trans[0]->pureDist(pt));
-   }
-   return pureDist(pt);
+   return length(*pt) - rad;
 }
 
 vec3 Sphere::getNormal(vec3 *pt)

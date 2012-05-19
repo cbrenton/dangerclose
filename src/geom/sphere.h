@@ -10,7 +10,6 @@ class Sphere : public Geometry
       Sphere(float _rad);
       ~Sphere() {};
       float dist(glm::vec3 *pt);
-      float pureDist(glm::vec3 *pt);
       glm::vec3 getNormal(glm::vec3 *pt);
       void debug();
    private:
