@@ -12,6 +12,8 @@
 #include "geom/box.h"
 #include "geom/geometry.h"
 #include "geom/rotate.h"
+#include "geom/plane.h"
+#include "geom/scale.h"
 #include "geom/sphere.h"
 #include "geom/translate.h"
 #include "glm/glm.hpp"

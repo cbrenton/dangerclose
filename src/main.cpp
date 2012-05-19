@@ -72,10 +72,10 @@ int main(int argc, char **argv)
 
    Camera cam = scene->getCam();
 
-   float l = -length(cam.right) / 2.f;
-   float r = length(cam.right) / 2.f;
-   float b = -length(cam.up) / 2.f;
-   float t = length(cam.up) / 2.f;
+   float l = -length(cam.right) / 2.0f;
+   float r = length(cam.right) / 2.0f;
+   float b = -length(cam.up) / 2.0f;
+   float t = length(cam.up) / 2.0f;
 
    // Generate rays.
    printf("Generating rays...");
@@ -120,7 +120,7 @@ int main(int argc, char **argv)
       for (int y = 0; y < height; y++)
       {
          // Test for intersection.
-         float maxLen = 100.f;
+         float maxLen = 100.0f;
          vec3 ray = aRayArray[x][y]->pt;
          bool hit = false;
          vec3 *hitColor = new vec3;
@@ -161,7 +161,7 @@ int main(int argc, char **argv)
 #ifdef LONG_DEBUG
             printf("hit at %d, %d: <%f, %f, %f>\n", x, y, ray.x, ray.y, ray.z);
 #endif
-            //vec3 color(1.f, 0.f, 0.f);
+            //vec3 color(1.0f, 0.0f, 0.0f);
             //printf("hit: %f, %f, %f\n", hitColor->x, hitColor->y, hitColor->z);
             img.setPixel(x, y, hitColor);
          }
@@ -234,29 +234,36 @@ float r2d(float rads)
 void initScene()
 {
    // Camera definition.
-   vec3 right = vec3(1.f, 0.f, 0.f);
-   vec3 up = vec3(0.f, 1.f, 0.f);
-   vec3 loc = vec3(0.f, 0.f, -10.f);
-   vec3 look_at = vec3(0.f, 0.f, 0.f);
+   vec3 right = vec3(1.0f, 0.0f, 0.0f);
+   vec3 up = vec3(0.0f, 1.0f, 0.0f);
+   vec3 loc = vec3(0.0f, 0.0f, -10.0f);
+   vec3 look_at = vec3(0.0f, 0.0f, 0.0f);
    Camera *cam = new Camera(loc, up, right, look_at);
    // Geometry definitions.
    Sphere *sp = new Sphere(0.1f);
-   sp->setColor(vec3(1.f, 0.f, 0.f));
+   sp->setColor(vec3(1.0f, 0.0f, 0.0f));
    Sphere *sp2 = new Sphere(0.1f);
-   sp2->setColor(vec3(0.f, 1.f, 0.f));
+   sp2->setColor(vec3(0.0f, 1.0f, 0.0f));
    Box *b = new Box(0.075f);
-   b->setColor(vec3(0.f, 0.f, 1.f));
+   b->setColor(vec3(0.0f, 0.0f, 1.0f));
+   Plane *p = new Plane(vec4(0.0f, 1.0f, 0.0f, 1.0f));
+   p->setColor(vec3(1.0f, 0.0f, 1.0f));
    // Transform definitions.
-   Translate *myTranslate = new Translate(vec3(0.1f, 0.f, -1.6f));
-   Rotate *myRotate = new Rotate(10.f, vec3(0.0f, 1.f, 0.0f));
-   Rotate *myRotate2 = new Rotate(15.f, vec3(0.0f, 1.f, 0.0f));
+   Translate *myTranslate = new Translate(vec3(0.1f, 0.0f, -1.6f));
+   Rotate *myRotate = new Rotate(10.0f, vec3(0.0f, 1.0f, 0.0f));
+   Rotate *myRotate2 = new Rotate(15.0f, vec3(0.0f, 1.0f, 0.0f));
+   Rotate *myRotate3 = new Rotate(30.0f, vec3(0.0f, 0.0f, 1.0f));
+   Scale *myScale = new Scale(vec3(0.8f, 2.0f, 1.0f));
    sp->addTrans(myTranslate);
    sp->addTrans(myRotate);
+   b->addTrans(myScale);
    b->addTrans(myRotate2);
+   b->addTrans(myRotate3);
    // Scene definition.
    scene = new Scene();
    scene->setCam(cam);
    scene->addGeom(sp);
    scene->addGeom(sp2);
    scene->addGeom(b);
+   scene->addGeom(p);
 }
