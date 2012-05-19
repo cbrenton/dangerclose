@@ -129,6 +129,10 @@ int main(int argc, char **argv)
          vec3 *hitColor = new vec3;
          float rayDist = distance(aRayArray[x][y]->pt, ray);
          int hops = 0;
+         /*
+         printf("ray: ");
+         mPRLN_VEC(aRayArray[x][y]->dir);
+         */
          while (!hit && rayDist < maxLen)
          {
 #ifdef LONG_DEBUG
@@ -148,6 +152,9 @@ int main(int argc, char **argv)
             else
             {
                ray += aRayArray[x][y]->dir * d;
+               //printf("hopping: ");
+               //mPRLN_VEC(aRayArray[x][y]->dir * d);
+               //mPRLN_VEC(aRayArray[x][y]->dir);
                rayDist = distance(aRayArray[x][y]->pt, ray);
                hops++;
             }
@@ -237,7 +244,7 @@ void initScene()
    Camera *cam = new Camera(loc, up, right, look_at);
    Sphere *sp = new Sphere(0.1f);
    sp->setColor(vec3(1.f, 0.f, 0.f));
-   Translate *myTranslate = new Translate(sp, vec3(1.f, 2.f, 1.f));
+   Translate *myTranslate = new Translate(sp, vec3(0.2f, 0.f, 0.f));
    sp->addTrans(myTranslate);
    scene = new Scene();
    scene->setCam(cam);

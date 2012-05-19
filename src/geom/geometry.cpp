@@ -7,6 +7,11 @@ Geometry::~Geometry()
 {
 }
 
+float Geometry::pureDist(vec3 *pt)
+{
+   return 0.f;
+}
+
 float Geometry::dist(vec3 *pt)
 {
    return 0.f;
@@ -30,4 +35,9 @@ void Geometry::addTrans(Transform *t)
 vec3 Geometry::getNormal(vec3 *pt)
 {
    return vec3();
+}
+
+void Geometry::debug()
+{
+   printf("Geometry\n");
 }

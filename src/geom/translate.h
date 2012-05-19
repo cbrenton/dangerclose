@@ -12,6 +12,7 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/matrix_inverse.hpp"
+#include <stdio.h>
 
 class Translate : public Transform
 {
@@ -21,6 +22,8 @@ class Translate : public Transform
       Translate(Geometry *g, glm::vec3 d);
       ~Translate() {};
       float dist(glm::vec3 *pt);
+      float pureDist(glm::vec3 *pt);
+      void debug();
    private:
       glm::mat4 transMat;
 };
