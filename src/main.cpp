@@ -242,15 +242,17 @@ void initScene()
    vec3 loc = vec3(0.f, 0.f, -10.f);
    vec3 look_at = vec3(0.f, 0.f, 0.f);
    Camera *cam = new Camera(loc, up, right, look_at);
+   // Geometry definitions.
    Sphere *sp = new Sphere(0.1f);
    sp->setColor(vec3(1.f, 0.f, 0.f));
-   Translate *myTranslate = new Translate(vec3(0.2f, 0.f, 0.f));
+   Sphere *sp2 = new Sphere(0.1f);
+   sp2->setColor(vec3(0.f, 1.f, 0.f));
+   // Transform definitions.
+   Translate *myTranslate = new Translate(vec3(0.1f, 0.f, -1.6f));
    sp->addTrans(myTranslate);
-   Translate *myTranslate2 = new Translate(vec3(0.0f, -0.2f, 0.f));
-   sp->addTrans(myTranslate2);
-   Translate *myTranslate3 = new Translate(vec3(0.0f, 0.0f, 10.6f));
-   sp->addTrans(myTranslate3);
+   // Scene definition.
    scene = new Scene();
    scene->setCam(cam);
    scene->addGeom(sp);
+   scene->addGeom(sp2);
 }
