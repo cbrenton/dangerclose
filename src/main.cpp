@@ -17,8 +17,6 @@
 
 #define INPUT_EXT ".pov"
 
-#define DEBUG
-
 using namespace glm;
 
 int width = DEFAULT_W;
@@ -126,20 +124,10 @@ int main(int argc, char **argv)
          vec3 *hitColor = new vec3;
          float rayDist = distance(aRayArray[x][y]->pt, ray);
          int hops = 0;
-         /*
-         printf("ray: ");
-         mPRLN_VEC(aRayArray[x][y]->dir);
-         */
          while (!hit && rayDist < maxLen)
          {
-#ifdef LONG_DEBUG
-            printf("<%f, %f, %f>\n", ray.x, ray.y, ray.z);
-            printf("\thops: %d\n", hops);
-#endif
             // Check distance to sphere.
-            //float d = sp->dist(ray);
-            float d = scene->closestDist(&ray, maxLen, hitColor);
-            //float d = abs(sdSphere(ray, 0.1f));
+            float d = scene->closestDist(&ray, maxLen, hitColor, hops);
             // If distance is less than or equal to epsilon, count as a hit.
             if (d <= EPSILON)
             {
@@ -149,26 +137,18 @@ int main(int argc, char **argv)
             else
             {
                ray += aRayArray[x][y]->dir * d;
-               //printf("hopping: ");
-               //mPRLN_VEC(aRayArray[x][y]->dir * d);
-               //mPRLN_VEC(aRayArray[x][y]->dir);
                rayDist = distance(aRayArray[x][y]->pt, ray);
                hops++;
             }
          }
          if (hit)
          {
-#ifdef LONG_DEBUG
-            printf("hit at %d, %d: <%f, %f, %f>\n", x, y, ray.x, ray.y, ray.z);
-#endif
-            //vec3 color(1.0f, 0.0f, 0.0f);
-            //printf("hit: %f, %f, %f\n", hitColor->x, hitColor->y, hitColor->z);
             img.setPixel(x, y, hitColor);
          }
       }
    }
 
-   // TODO: Write image out to file.
+   // Write image out to file.
    img.write();
    
    // Cleanup.

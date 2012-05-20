@@ -22,21 +22,25 @@ Scene::~Scene()
    delete cam;
 }
 
-float Scene::closestDist(vec3 *pt, float max, vec3 *colorOut)
+float Scene::closestDist(vec3 *pt, float max, vec3 *colorOut, int hopCount)
 {
-   float closest = max;
+   float closestD = max;
    vec3 color;
+   if (gVec.size() == 0)
+      return closestD;
+   Geometry *closestPrim = gVec[0];
    for (int ndx = 0; ndx < (int)gVec.size(); ndx++)
    {
       float curDist = gVec[ndx]->getDist(pt);
-      if (curDist < closest && curDist >= 0.f)
+      if (curDist < closestD && curDist >= 0.f)
       {
-         closest = curDist;
-         color = gVec[ndx]->getColor(pt);
+         closestD = curDist;
+         closestPrim = gVec[ndx];
       }
    }
+   color = closestPrim->getColor(pt, hopCount);
    *colorOut = color;
-   return closest;
+   return closestD;
 }
 
 void Scene::addGeom(Geometry *g)

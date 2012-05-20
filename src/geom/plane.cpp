@@ -16,14 +16,13 @@ Plane::Plane(vec4 _coefficients) :
 
 float Plane::dist(vec3 *pt)
 {
-   //return dot(*pt, vec3(coefficients)) + coefficients.w;
-   return dot(*pt, vec3(coefficients.x, coefficients.y, coefficients.z)) + coefficients.w;
+   return dot(*pt, vec3(coefficients)) + coefficients.w;
 }
 
 vec3 Plane::getNormal(vec3 *pt)
 {
    // TODO: Make this involve transforms.
-   vec3 d = *pt;
+   vec3 d = vec3(coefficients);
    return d;
 }
 
