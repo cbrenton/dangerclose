@@ -24,17 +24,33 @@ float Geometry::dist(vec3 *pt)
    return 0.f;
 }
 
-vec3 Geometry::getColor(vec3 *pt, int hopCount)
+vec3 Geometry::getColor(vec3 *pt, int hopCount, Light *l)
 {
-   vec3 light = vec3(0.f, 1.f, 0.f);
-   //return color;
+   vec3 light;
+   if (l == NULL)
+   {
+      fprintf(stderr, "Should not be here. You must have forgotten to add a light to the scene.\n");
+      exit(EXIT_FAILURE);
+   }
+   light = normalize(l->loc - *pt);
    float nDotL = dot(cdNormal(pt), light);
-   return nDotL * color;
+   if (nDotL > 1.0f || nDotL < 0.0f)
+   {
+      mCLAMP(nDotL, 0.0f, 1.0f);
+   }
+   // TODO: Add actual lighting computations. Requires materials.
+   //return nDotL * l->color;
+   return nDotL * mat.color;
 }
 
 void Geometry::setColor(vec3 c)
 {
    color = c;
+}
+
+void Geometry::setMat(Material m)
+{
+   mat = m;
 }
 
 void Geometry::addTrans(Transform *t)

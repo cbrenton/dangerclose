@@ -4,13 +4,13 @@ using namespace glm;
 
 Scene::Scene()
 {
-   cam = new Camera();
+   cam = Camera();
 }
 
 Scene::Scene(std::vector<Geometry *> gVecIn) :
    gVec(gVecIn)
 {
-   cam = new Camera();
+   cam = Camera();
 }
 
 Scene::~Scene()
@@ -19,7 +19,21 @@ Scene::~Scene()
    {
       delete gVec[ndx];
    }
-   delete cam;
+}
+
+Scene * Scene::read(std::string filename)
+{
+   Scene *ret = new Scene();
+   NYUParser *p = new NYUParser();
+   std::fstream in(filename.c_str());
+   if (!in)
+   {
+      fprintf(stderr, "Invalid input file: %s\n", filename.c_str());
+      exit(EXIT_FAILURE);
+   }
+   p->parse(in, *ret);
+   delete p;
+   return ret;
 }
 
 float Scene::closestDist(vec3 *pt, float max, vec3 *colorOut, int hopCount)
@@ -38,7 +52,7 @@ float Scene::closestDist(vec3 *pt, float max, vec3 *colorOut, int hopCount)
          closestPrim = gVec[ndx];
       }
    }
-   color = closestPrim->getColor(pt, hopCount);
+   color = closestPrim->getColor(pt, hopCount, light);
    *colorOut = color;
    return closestD;
 }
@@ -48,12 +62,17 @@ void Scene::addGeom(Geometry *g)
    gVec.push_back(g);
 }
 
-void Scene::setCam(Camera *c)
+void Scene::addLight(Light *l)
+{
+   light = l;
+}
+
+void Scene::setCamera(Camera c)
 {
    cam = c;
 }
 
-Camera Scene::getCam()
+Camera Scene::getCamera()
 {
-   return *cam;
+   return cam;
 }

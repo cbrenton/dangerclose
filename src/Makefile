@@ -4,6 +4,9 @@ all:
 eog:
 	@make eog -C ../
 
+pov:
+	@make pov -C ../
+
 force:
 	@make clean all
 

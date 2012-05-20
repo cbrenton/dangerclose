@@ -7,8 +7,10 @@
 #ifndef _SCENE_H
 #define _SCENE_H
 
+#include <fstream>
 #include <vector>
 #include "camera.h"
+#include "light.h"
 #include "geom/box.h"
 #include "geom/geometry.h"
 #include "geom/rotate.h"
@@ -18,6 +20,7 @@
 #include "geom/translate.h"
 #include "geom/wavy.h"
 #include "glm/glm.hpp"
+#include "parse/nyuparser.h"
 
 class Scene
 {
@@ -25,14 +28,16 @@ class Scene
       Scene();
       Scene(std::vector<Geometry *> gVecIn);
       ~Scene();
-      //static Scene * read(std::string filename);
+      static Scene * read(std::string filename);
       float closestDist(glm::vec3 *pt, float max, glm::vec3 *colorOut, int hopCount);
       void addGeom(Geometry *g);
-      void setCam(Camera *c);
-      Camera getCam();
+      void addLight(Light *l);
+      void setCamera(Camera c);
+      Camera getCamera();
    private:
       std::vector<Geometry *> gVec;
-      Camera *cam;
+      Camera cam;
+      Light *light;
 };
 
 #endif

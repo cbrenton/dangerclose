@@ -5,25 +5,19 @@ using namespace glm;
 
 Plane::Plane()
 {
-   coefficients = vec4(0.f);
+   normal = vec3(0.f, 1.f, 0.f);
+   offset = 0.f;
 }
 
-Plane::Plane(vec4 _coefficients) :
-   coefficients(_coefficients)
+Plane::Plane(vec3 _normal, float _offset) :
+   normal(_normal), offset(_offset)
 {
-   coefficients = normalize(coefficients);
+   normal = normalize(normal);
 }
 
 float Plane::dist(vec3 *pt)
 {
-   return dot(*pt, vec3(coefficients)) + coefficients.w;
-}
-
-vec3 Plane::getNormal(vec3 *pt)
-{
-   // TODO: Make this involve transforms.
-   vec3 d = vec3(coefficients);
-   return d;
+   return dot(*pt, normal + offset);
 }
 
 void Plane::debug()

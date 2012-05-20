@@ -27,8 +27,8 @@ INPUTDIR=input
 INPUTFILE=test
 OUTPUTDIR=images
 OUTPUTEXT=tga
-WIDTH=640
-HEIGHT=640
+WIDTH=900
+HEIGHT=600
 ARGS = -w $(WIDTH) -h $(HEIGHT) -i $(INPUTDIR)/$(INPUTFILE).$(INPUTEXT)
 
 # Additional linker libraries
@@ -60,6 +60,9 @@ run:
 
 eog:
 	eog ./$(OUTPUTDIR)/$(INPUTFILE).$(OUTPUTEXT)
+
+pov:
+	vim ./$(INPUTDIR)/$(INPUTFILE).$(INPUTEXT)
 
 test:	run eog
 
