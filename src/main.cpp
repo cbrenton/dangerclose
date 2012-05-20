@@ -228,6 +228,8 @@ void initScene()
    b->setColor(vec3(0.0f, 0.0f, 1.0f));
    Plane *p = new Plane(vec4(0.0f, 1.0f, 0.0f, 1.0f));
    p->setColor(vec3(1.0f, 0.0f, 1.0f));
+   //Wavy *w = new Wavy();
+   //w->setColor(vec3(0.0f, 1.0f, 1.0f));
    // Transform definitions.
    Translate *myTranslate = new Translate(vec3(0.1f, 0.0f, -1.6f));
    Rotate *myRotate = new Rotate(10.0f, vec3(0.0f, 1.0f, 0.0f));
@@ -246,4 +248,5 @@ void initScene()
    scene->addGeom(sp2);
    scene->addGeom(b);
    scene->addGeom(p);
+   //scene->addGeom(w);
 }

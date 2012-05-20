@@ -4,7 +4,7 @@
 #include <vector>
 #include "glm/glm.hpp"
 
-#define EPSILON 0.001f
+#define EPSILON 0.0001f
 
 #define mPR_VEC(a) printf("<%f, %f, %f>", (a).x, (a).y, (a).z)
 #define mPRLN_VEC(a) printf("<%f, %f, %f>\n", (a).x, (a).y, (a).z)

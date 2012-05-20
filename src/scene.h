@@ -16,6 +16,7 @@
 #include "geom/scale.h"
 #include "geom/sphere.h"
 #include "geom/translate.h"
+#include "geom/wavy.h"
 #include "glm/glm.hpp"
 
 class Scene

@@ -57,7 +57,7 @@ vec3 Geometry::getNormal(vec3 *pt)
 
 vec3 Geometry::cdNormal(vec3 *pt)
 {
-   vec3 eps = vec3(EPSILON, 0.0, 0.0);
+   vec3 eps = vec3(EPSILON * 100.f, 0.0, 0.0);
    vec3 nor;
    vec3 pos = *pt;
 
