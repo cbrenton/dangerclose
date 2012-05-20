@@ -8,7 +8,7 @@ class Sphere : public Geometry
    public:
       Sphere(float _rad);
       ~Sphere() {};
-      float dist(glm::vec3 *pt);
+      float dist(glm::vec3 *pt, glm::vec3 *dir = NULL);
       void debug();
    private:
       float rad;

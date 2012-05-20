@@ -36,17 +36,17 @@ Scene * Scene::read(std::string filename)
    return ret;
 }
 
-float Scene::closestDist(vec3 *pt, float max, vec3 *colorOut, int hopCount)
+float Scene::closestDist(vec3 *pt, vec3 *dir, vec3 *colorOut, int hopCount)
 {
-   float closestD = max;
+   float closestD = MAX_D;
    vec3 color;
    if (gVec.size() == 0)
       return closestD;
    Geometry *closestPrim = gVec[0];
    for (int ndx = 0; ndx < (int)gVec.size(); ndx++)
    {
-      float curDist = gVec[ndx]->getDist(pt);
-      if (curDist < closestD && curDist >= 0.f)
+      float curDist = gVec[ndx]->getDist(pt, dir);
+      if (curDist < closestD && curDist >= -EPSILON)
       {
          closestD = curDist;
          closestPrim = gVec[ndx];

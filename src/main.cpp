@@ -118,16 +118,16 @@ int main(int argc, char **argv)
       for (int y = 0; y < height; y++)
       {
          // Test for intersection.
-         float maxLen = 100.0f;
          vec3 ray = aRayArray[x][y]->pt;
+         vec3 rayDir = aRayArray[x][y]->dir;
          bool hit = false;
          vec3 *hitColor = new vec3;
          float rayDist = distance(aRayArray[x][y]->pt, ray);
          int hops = 0;
-         while (!hit && rayDist < maxLen)
+         while (!hit && rayDist < MAX_D)
          {
             // Check distance to sphere.
-            float d = scene->closestDist(&ray, maxLen, hitColor, hops);
+            float d = scene->closestDist(&ray, &rayDir, hitColor, hops);
             // If distance is less than or equal to epsilon, count as a hit.
             if (d <= EPSILON)
             {
@@ -136,8 +136,8 @@ int main(int argc, char **argv)
             // If not a hit, advance ray by distance.
             else
             {
-               ray += aRayArray[x][y]->dir * d;
-               rayDist = distance(aRayArray[x][y]->pt, ray);
+               ray += rayDir * d;
+               rayDist = distance(rayDir, ray);
                hops++;
             }
          }

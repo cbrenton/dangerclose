@@ -13,16 +13,9 @@ Box::Box(float _size) :
 {
 }
 
-float Box::dist(vec3 *pt)
+float Box::dist(vec3 *pt, vec3 *dir)
 {
    return length(max(abs(*pt) - size, 0.0));
-}
-
-vec3 Box::getNormal(vec3 *pt)
-{
-   // TODO: Make this involve transforms.
-   vec3 d = *pt;
-   return d;
 }
 
 void Box::debug()

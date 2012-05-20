@@ -3,21 +3,27 @@
 
 using namespace glm;
 
-Plane::Plane()
-{
-   normal = vec3(0.f, 1.f, 0.f);
-   offset = 0.f;
-}
-
 Plane::Plane(vec3 _normal, float _offset) :
    normal(_normal), offset(_offset)
 {
    normal = normalize(normal);
 }
 
-float Plane::dist(vec3 *pt)
+float Plane::dist(vec3 *pt, vec3 *dir)
 {
-   return dot(*pt, normal + offset);
+   if (dir == NULL)
+   {
+      return dot(*pt, normal) + offset;
+   }
+   float denominator = dot(*dir, normal);
+   if (denominator == 0.0)
+   {
+      return MAX_D;
+   }
+   vec3 p = normal * offset;
+   vec3 pMinusL = p - *pt;
+   float numerator = dot(pMinusL, normal);
+   return numerator / denominator;
 }
 
 void Plane::debug()

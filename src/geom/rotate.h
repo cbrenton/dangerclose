@@ -20,7 +20,7 @@ class Rotate : public Transform
       Rotate();
       Rotate(float angle, glm::vec3 d);
       ~Rotate() {};
-      float dist(glm::vec3 *pt);
+      float dist(glm::vec3 *pt, glm::vec3 *dir = NULL);
       void debug();
    private:
       glm::mat4 transMat;

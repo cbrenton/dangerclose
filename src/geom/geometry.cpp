@@ -7,18 +7,18 @@ Geometry::~Geometry()
 {
 }
 
-float Geometry::getDist(vec3 *pt)
+float Geometry::getDist(vec3 *pt, vec3 *dir)
 {
    // If the transform vector is not empty, find the getDistance through the
    // transforms.
    if (!trans.empty())
    {
-      return (trans.back()->dist(pt));
+      return (trans.back()->dist(pt, dir));
    }
-   return dist(pt);
+   return dist(pt, dir);
 }
 
-float Geometry::dist(vec3 *pt)
+float Geometry::dist(vec3 *pt, vec3 *dir)
 {
    printf("Should never be here. You must have forgotten to add a dist() function to a Geometry subclass.\n");
    return 0.f;
@@ -33,14 +33,20 @@ vec3 Geometry::getColor(vec3 *pt, int hopCount, Light *l)
       exit(EXIT_FAILURE);
    }
    light = normalize(l->loc - *pt);
-   float nDotL = dot(cdNormal(pt), light);
+   float nDotL = dot(getNormal(pt), light);
    if (nDotL > 1.0f || nDotL < 0.0f)
    {
-      mCLAMP(nDotL, 0.0f, 1.0f);
+      nDotL = mCLAMP(nDotL, 0.0f, 1.0f);
    }
    // TODO: Add actual lighting computations. Requires materials.
    //return nDotL * l->color;
-   return nDotL * mat.color;
+   //return clamp(nDotL * mat.color, 0.0f, 1.0f);
+
+   vec3 preOcclude = clamp(nDotL * mat.color, 0.0f, 1.0f);
+   float maxHops = 15.f;
+   preOcclude /= maxHops;
+   preOcclude *= std::min(maxHops, (float)hopCount);
+   return preOcclude;
 }
 
 void Geometry::setColor(vec3 c)
@@ -67,11 +73,6 @@ void Geometry::addTrans(Transform *t)
 }
 
 vec3 Geometry::getNormal(vec3 *pt)
-{
-   return vec3();
-}
-
-vec3 Geometry::cdNormal(vec3 *pt)
 {
    vec3 eps = vec3(EPSILON * 100.f, 0.0, 0.0);
    vec3 nor;

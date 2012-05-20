@@ -7,7 +7,7 @@ Transform::Transform(Geometry *g) :
 {
 }
 
-float Transform::dist(vec3 *pt)
+float Transform::dist(vec3 *pt, vec3 *dir)
 {
    return 0.f;
 }

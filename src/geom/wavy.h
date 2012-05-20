@@ -7,14 +7,13 @@
 class Wavy : public Geometry
 {
    public:
-      Wavy();
-      Wavy(glm::vec4 _coefficients);
+      Wavy(glm::vec3 _normal, float _offset);
       ~Wavy() {};
-      float dist(glm::vec3 *pt);
-      glm::vec3 getNormal(glm::vec3 *pt);
+      float dist(glm::vec3 *pt, glm::vec3 *dir = NULL);
       void debug();
    private:
-      glm::vec4 coefficients;
+      glm::vec3 normal;
+      float offset;
 };
 
 #endif

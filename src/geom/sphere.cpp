@@ -8,7 +8,7 @@ Sphere::Sphere(float _rad) :
 {
 }
 
-float Sphere::dist(vec3 *pt)
+float Sphere::dist(vec3 *pt, vec3 *dir)
 {
    return length(*pt) - rad;
 }

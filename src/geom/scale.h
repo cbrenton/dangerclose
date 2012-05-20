@@ -20,7 +20,7 @@ class Scale : public Transform
       Scale();
       Scale(glm::vec3 d);
       ~Scale() {};
-      float dist(glm::vec3 *pt);
+      float dist(glm::vec3 *pt, glm::vec3 *dir = NULL);
       void debug();
    private:
       glm::mat4 transMat;

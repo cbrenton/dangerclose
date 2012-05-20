@@ -16,10 +16,15 @@ Translate::Translate(vec3 d)
    transMat = inverse(transMat);
 }
 
-float Translate::dist(vec3 *pt)
+float Translate::dist(vec3 *pt, vec3 *dir)
 {
    vec3 m = vec3(transMat * vec4(*pt, 1.f));
-   return prim->dist(&m);
+   if (dir == NULL)
+   {
+      return prim->dist(&m, dir);
+   }
+   vec3 mDir = vec3(transMat * vec4(*dir, 1.f));
+   return prim->dist(&m, &mDir);
 }
 
 void Translate::debug()

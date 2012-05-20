@@ -10,7 +10,7 @@ class Transform : public Geometry
       Transform() {};
       Transform(Geometry *g);
       virtual ~Transform() {};
-      virtual float dist(glm::vec3 *pt);
+      virtual float dist(glm::vec3 *pt, glm::vec3 *dir = NULL);
       void setPrim(Geometry *g);
       virtual void debug();
    protected:

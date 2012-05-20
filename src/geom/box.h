@@ -9,8 +9,7 @@ class Box : public Geometry
       Box();
       Box(float _size);
       ~Box() {};
-      float dist(glm::vec3 *pt);
-      glm::vec3 getNormal(glm::vec3 *pt);
+      float dist(glm::vec3 *pt, glm::vec3 *dir = NULL);
       void debug();
    private:
       float size;
