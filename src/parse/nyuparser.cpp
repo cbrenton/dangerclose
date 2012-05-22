@@ -383,7 +383,7 @@ Camera NYUParser::ParseCamera()
    // printf("\tlook_at ");   PrintVect(look_at);   printf("\n");
    // printf("\tmatrix "); PrintMatrix4d(transform);
    // printf("\n}\n");
-   return Camera(location,up,right,look_at);
+   return Camera(location, up, right, look_at);
 }
 
 Sphere * NYUParser::ParseSphere()

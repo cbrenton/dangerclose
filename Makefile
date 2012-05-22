@@ -24,11 +24,11 @@ LDFLAGS = $(OPTIMIZE) $(DEBUG) $(ERROR) $(LFLAGS)
 TARGET = dangerclose
 INPUTEXT=pov
 INPUTDIR=input
-INPUTFILE=simple
+INPUTFILE=simple_plane2
 OUTPUTDIR=images
 OUTPUTEXT=tga
-WIDTH=900
-HEIGHT=600
+WIDTH=800
+HEIGHT=800
 ARGS = -w $(WIDTH) -h $(HEIGHT) -i $(INPUTDIR)/$(INPUTFILE).$(INPUTEXT)
 
 # Additional linker libraries

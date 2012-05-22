@@ -13,7 +13,7 @@ float Plane::dist(vec3 *pt, vec3 *dir)
 {
    if (dir == NULL)
    {
-      return dot(*pt, normal) + offset;
+      return dot(*pt, normal) - offset;
    }
    float denominator = dot(*dir, normal);
    if (denominator == 0.0)
@@ -24,9 +24,13 @@ float Plane::dist(vec3 *pt, vec3 *dir)
    vec3 pMinusL = p - *pt;
    float numerator = dot(pMinusL, normal);
    return numerator / denominator;
+   //return dot(*pt, normal) - offset;
 }
 
 void Plane::debug()
 {
-   printf("Plane\n");
+   printf("Plane:\n");
+   printf("\tnormal: ");
+   mPRLN_VEC(normal);
+   printf("\toffset: %f\n", offset);
 }

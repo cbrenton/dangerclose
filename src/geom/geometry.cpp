@@ -45,36 +45,47 @@ vec3 Geometry::getColor(vec3 *pt, int hopCount, Light *l, float proximity)
    //return clamp(nDotL * mat.color, 0.0f, 1.0f);
 
    float occludeD = proximity;
-   float scale = 0.15f;
+   float scale = 2.0f;
    if (occludeD > scale)
    {
-      return vec3(0.0f, 0.0f, 1.0f);
-   //return clamp(nDotL * mat.color, 0.0f, 1.0f);
+      /*
+      if (dynamic_cast<Sphere *>(this) != NULL)
+      {
+         printf("Sphere occludeD: %f; ", occludeD);
+         mPRLN_VEC(*pt);
+      }
+      */
+      //return vec3(0.0f, 1.0f, 1.0f);
+      //return nDotL * l->color;
+      return mat.color;
+      //return clamp(nDotL * mat.color, 0.0f, 1.0f);
       //occludeD = scale;
    }
    occludeD = mCLAMP(occludeD, 0.0f, scale);
    //printf("closest: %f\n", occludeD);
-   //float colorMag = occludeD / scale;
-   float colorMag = occludeD;
+   float colorMag = occludeD / scale;
+   //float colorMag = occludeD;
    colorMag = mCLAMP(colorMag, 0.0f, 1.0f);
    /*
-   if (dynamic_cast<Plane *>(this) != NULL && colorMag != 1.0f)
-   {
+      if (dynamic_cast<Plane *>(this) != NULL && colorMag != 1.0f)
+      {
       printf("plane colorMag: %f\n", colorMag);
-      //return vec3(0.0f, 1.0f, 0.0f);
+   //return vec3(0.0f, 1.0f, 0.0f);
    }
    */
    //printf("\tcolorMag: %f\n", colorMag);
    //return vec3(1.0f - colorMag);
-   return vec3(colorMag);
+   //return vec3(colorMag);
+   return clamp(mat.color * colorMag, 0.0f, 1.0f);
+   //return clamp(vec3(nDotL * colorMag), 0.0f, 1.0f);
 
    /*
-   vec3 preOcclude = clamp(nDotL * mat.color, 0.0f, 1.0f);
-   float maxHops = 15.f;
-   preOcclude /= maxHops;
-   preOcclude *= std::min(maxHops, (float)hopCount);
-   return preOcclude;
-   */
+      vec3 preOcclude = clamp(nDotL * mat.color, 0.0f, 1.0f);
+      float maxHops = 15.f;
+      preOcclude /= maxHops;
+      preOcclude *= std::min(maxHops, (float)hopCount);
+      return preOcclude;
+      */
 }
 
 void Geometry::setColor(vec3 c)
