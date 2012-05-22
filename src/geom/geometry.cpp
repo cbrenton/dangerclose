@@ -1,5 +1,6 @@
 #include "geom/geometry.h"
 #include "geom/transform.h"
+#include "scene.h"
 
 using namespace glm;
 
@@ -24,7 +25,7 @@ float Geometry::dist(vec3 *pt, vec3 *dir)
    return 0.f;
 }
 
-vec3 Geometry::getColor(vec3 *pt, int hopCount, Light *l)
+vec3 Geometry::getColor(vec3 *pt, int hopCount, Light *l, float proximity)
 {
    vec3 light;
    if (l == NULL)
@@ -33,7 +34,8 @@ vec3 Geometry::getColor(vec3 *pt, int hopCount, Light *l)
       exit(EXIT_FAILURE);
    }
    light = normalize(l->loc - *pt);
-   float nDotL = dot(getNormal(pt), light);
+   vec3 normal = getNormal(pt);
+   float nDotL = dot(normal, light);
    if (nDotL > 1.0f || nDotL < 0.0f)
    {
       nDotL = mCLAMP(nDotL, 0.0f, 1.0f);
@@ -42,11 +44,37 @@ vec3 Geometry::getColor(vec3 *pt, int hopCount, Light *l)
    //return nDotL * l->color;
    //return clamp(nDotL * mat.color, 0.0f, 1.0f);
 
+   float occludeD = proximity;
+   float scale = 0.15f;
+   if (occludeD > scale)
+   {
+      return vec3(0.0f, 0.0f, 1.0f);
+   //return clamp(nDotL * mat.color, 0.0f, 1.0f);
+      //occludeD = scale;
+   }
+   occludeD = mCLAMP(occludeD, 0.0f, scale);
+   //printf("closest: %f\n", occludeD);
+   //float colorMag = occludeD / scale;
+   float colorMag = occludeD;
+   colorMag = mCLAMP(colorMag, 0.0f, 1.0f);
+   /*
+   if (dynamic_cast<Plane *>(this) != NULL && colorMag != 1.0f)
+   {
+      printf("plane colorMag: %f\n", colorMag);
+      //return vec3(0.0f, 1.0f, 0.0f);
+   }
+   */
+   //printf("\tcolorMag: %f\n", colorMag);
+   //return vec3(1.0f - colorMag);
+   return vec3(colorMag);
+
+   /*
    vec3 preOcclude = clamp(nDotL * mat.color, 0.0f, 1.0f);
    float maxHops = 15.f;
    preOcclude /= maxHops;
    preOcclude *= std::min(maxHops, (float)hopCount);
    return preOcclude;
+   */
 }
 
 void Geometry::setColor(vec3 c)

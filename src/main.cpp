@@ -213,5 +213,5 @@ float r2d(float rads)
 
 void initScene()
 {
-   scene = Scene::read("input/test.pov");
+   scene = Scene::read(inputFileName.c_str());
 }

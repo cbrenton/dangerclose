@@ -15,6 +15,8 @@
 
 class Transform;
 
+class Scene;
+
 class Geometry
 {
    public:
@@ -22,7 +24,7 @@ class Geometry
       virtual ~Geometry();
       virtual float getDist(glm::vec3 *pt, glm::vec3 *dir = NULL);
       virtual float dist(glm::vec3 *pt, glm::vec3 *dir = NULL);
-      virtual glm::vec3 getColor(glm::vec3 *pt, int hopCount, Light *l);
+      virtual glm::vec3 getColor(glm::vec3 *pt, int hopCount, Light *l, float proximity);
       virtual void setColor(glm::vec3 c);
       virtual void setMat(Material m);
       virtual void addTrans(Transform *t);

@@ -29,6 +29,7 @@ class Scene
       Scene(std::vector<Geometry *> gVecIn);
       ~Scene();
       static Scene * read(std::string filename);
+      float closest(glm::vec3 *pt, Geometry *self = NULL);
       float closestDist(glm::vec3 *pt, glm::vec3 *dir, glm::vec3 *colorOut, int hopCount);
       void addGeom(Geometry *g);
       void addLight(Light *l);
