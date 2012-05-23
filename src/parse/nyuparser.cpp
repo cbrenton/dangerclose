@@ -383,13 +383,20 @@ Camera NYUParser::ParseCamera()
    // printf("\tlook_at ");   PrintVect(look_at);   printf("\n");
    // printf("\tmatrix "); PrintMatrix4d(transform);
    // printf("\n}\n");
-   return Camera(location,up,right,look_at);
+   glm::vec3 lookDir = glm::normalize(look_at - location);
+   return Camera(location,up,right,location + lookDir);
+   //return Camera(location,up,right,look_at);
 }
 
 Sphere * NYUParser::ParseSphere()
 {
    ParseLeftCurly();
+   glm::vec3 translate;
+   ParseVector(translate);
+   ParseComma();
    Sphere * s = new Sphere(ParseDouble());
+   Translate *t = new Translate(translate);
+   s->addTrans(t);
 
    ParseModifiers(*s);
    ParseRightCurly();

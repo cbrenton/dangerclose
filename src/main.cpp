@@ -115,6 +115,8 @@ int main(int argc, char **argv)
    printf("Testing intersections.\n");
    for (int x = 0; x < width; x++)
    {
+      printf("\r%d / %d", x, width);
+      fflush(stdout);
       for (int y = 0; y < height; y++)
       {
          // Test for intersection.
@@ -147,6 +149,7 @@ int main(int argc, char **argv)
          }
       }
    }
+   printf("\n");
 
    // Write image out to file.
    img.write();
