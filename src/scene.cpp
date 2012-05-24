@@ -84,7 +84,7 @@ float Scene::closestDist(vec3 *pt, vec3 *dir, vec3 *colorOut, int hopCount)
    if (abs(closestD) <= EPSILON)
    {
       float proximity = closest(pt, closestPrim);
-      color = closestPrim->getColor(pt, hopCount, light, proximity);
+      color = closestPrim->getColor(pt, dir, hopCount, lVec, proximity);
       *colorOut = color;
    }
    return closestD;
@@ -97,7 +97,7 @@ void Scene::addGeom(Geometry *g)
 
 void Scene::addLight(Light *l)
 {
-   light = l;
+   lVec.push_back(l);
 }
 
 void Scene::setCamera(Camera c)

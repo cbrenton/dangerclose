@@ -111,7 +111,7 @@ void NYUParser::ParseTransform(Geometry & s)
    glm::vec3 v;
    Token t;
    double angle;
-   Transform *trans;
+   //Transform *trans;
    // while[1]{
    for(;;){
       t = tokenizer->GetToken();
@@ -120,21 +120,30 @@ void NYUParser::ParseTransform(Geometry & s)
       case T_SCALE:
          ParseVector(v);
          //trans.setScale(v);
+         /*
          trans = new Scale(v);
          s.addTrans(trans);
+         */
+         s.addScale(v);
          break;
       case T_ROTATE:
          angle = ParseDouble();
          ParseVector(v);
          //trans.setRotation(v[0],v[1],v[2]);
+         /*
          trans = new Rotate(angle, v);
          s.addTrans(trans);
+         */
+         s.addRotate(angle, v);
          break;
       case T_TRANSLATE:
          ParseVector(v);
          //trans.setTranslation(v[0],v[1],v[2]);
+         /*
          trans = new Translate(v);
          s.addTrans(trans);
+         */
+         s.addTranslate(v);
          break;
          /* once we run into an unknown token, we assume there are no
             more  transforms to parse and we return to caller */
@@ -391,12 +400,13 @@ Camera NYUParser::ParseCamera()
 Sphere * NYUParser::ParseSphere()
 {
    ParseLeftCurly();
-   glm::vec3 translate;
-   ParseVector(translate);
+   glm::vec3 translateVec;
+   ParseVector(translateVec);
    ParseComma();
    Sphere * s = new Sphere(ParseDouble());
-   Translate *t = new Translate(translate);
-   s->addTrans(t);
+   //Translate *t = new Translate(translate);
+   //s->addTrans(t);
+   s->addTranslate(translateVec);
 
    ParseModifiers(*s);
    ParseRightCurly();

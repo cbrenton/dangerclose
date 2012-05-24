@@ -27,8 +27,8 @@ INPUTDIR=input
 INPUTFILE=bunny_small
 OUTPUTDIR=images
 OUTPUTEXT=tga
-WIDTH  = 300
-HEIGHT = 200
+WIDTH  = 900
+HEIGHT = 600
 ARGS = -w $(WIDTH) -h $(HEIGHT) -i $(INPUTDIR)/$(INPUTFILE).$(INPUTEXT)
 
 # Additional linker libraries

@@ -78,7 +78,7 @@ void Image::writeHeader(std::ofstream& out)
       << (char) ((width >> 8) & 0xFF)
       << (char) (height & 0xFF)
       << (char) ((height >> 8) & 0xFF)
-      << (char) 32 // 32 bit bitmap
+      << (char) 24 // 24 bit bitmap
       << '\0';
 }
 
@@ -103,12 +103,10 @@ void Image::write()
    {
       for (int j = 0; j < width; j++)
       {
-         //data[j][i].print(myfile);
          data[j][i] = clamp(data[j][i], 0.f, 1.f);
-         myfile << (char)(data[j][i].z * 255)
-            << (char)(data[j][i].y * 255)
-            << (char)(data[j][i].x * 255)
-            << (char)255;
+         myfile << (char)((int)(data[j][i].z * 255.f))
+            << (char)((int)(data[j][i].y * 255.f))
+            << (char)((int)(data[j][i].x * 255.f));
       }
    }
 

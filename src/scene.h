@@ -38,7 +38,7 @@ class Scene
    private:
       std::vector<Geometry *> gVec;
       Camera cam;
-      Light *light;
+      std::vector<Light *>lVec;
 };
 
 #endif
