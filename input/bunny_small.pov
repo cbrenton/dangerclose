@@ -11,6 +11,7 @@ light_source { <0, 0, -4> color rgb <1.0, 1.0, 1.0> }
 plane { <0, 1, 0>, -2.25
     pigment { color rgb <0.5, 0.3, 0.3> }
     finish { ambient 0.2 diffuse 0.4 specular 0.0 roughness 0.05 }
+    translate <0.0, -10.0, 0.0>
 }
     //finish { ambient 0.2 diffuse 0.6 specular 0.2 roughness 0.05 }
 

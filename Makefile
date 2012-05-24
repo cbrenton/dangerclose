@@ -25,11 +25,15 @@ TARGET = dangerclose
 INPUTEXT=pov
 INPUTDIR=input
 INPUTFILE=bunny_small
+#INPUTFILE=simple_plane
 OUTPUTDIR=images
 OUTPUTEXT=tga
 WIDTH  = 300
 HEIGHT = 200
 ARGS = -w $(WIDTH) -h $(HEIGHT) -i $(INPUTDIR)/$(INPUTFILE).$(INPUTEXT)
+BIG_WIDTH  = 900
+BIG_HEIGHT = 600
+BIG_ARGS = -w $(BIG_WIDTH) -h $(BIG_HEIGHT) -i $(INPUTDIR)/$(INPUTFILE).$(INPUTEXT)
 
 # Additional linker libraries
 LIBS = $(LIBFLAGS)
@@ -57,6 +61,9 @@ lib:
 
 run:
 	./$(TARGET) $(ARGS)
+
+big:
+	./$(TARGET) $(BIG_ARGS)
 
 eog:
 	eog ./$(OUTPUTDIR)/$(INPUTFILE).$(OUTPUTEXT)

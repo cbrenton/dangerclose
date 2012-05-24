@@ -78,17 +78,21 @@ float Scene::closestDist(vec3 *pt, vec3 *dir, vec3 *colorOut, vec3 *noOccludeCol
    for (int ndx = 0; ndx < (int)gVec.size(); ndx++)
    {
       float curDist = gVec[ndx]->getDist(pt, dir);
-      if (curDist < closestD && curDist >= -EPSILON)
+      // TODO: Tweak these variables?
+      //if (curDist < closestD && curDist >= -EPSILON * 10000.f)
+      if (curDist < closestD)
       {
          closestD = curDist;
          closestPrim = gVec[ndx];
       }
    }
-   if (abs(closestD) <= EPSILON)
-   {
+   // TODO: Put this in main. Onlu calculate color if there is a hit.
+   // TODO: Tweak these variables?
+   //if (abs(closestD) <= EPSILON * 10000.f)
+   //{
       float proximity = closest(pt, closestPrim);
       *colorOut = closestPrim->getColor(pt, dir, hopCount, lVec, proximity, noOccludeColorOut);
-   }
+   //}
    return closestD;
 }
 

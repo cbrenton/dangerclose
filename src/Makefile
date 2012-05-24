@@ -19,6 +19,9 @@ lib:
 run:
 	@make run -C ../
 
+big:
+	@make big -C ../
+
 vg:
 	@make vg -C ../
 

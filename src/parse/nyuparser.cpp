@@ -111,38 +111,21 @@ void NYUParser::ParseTransform(Geometry & s)
    glm::vec3 v;
    Token t;
    double angle;
-   //Transform *trans;
-   // while[1]{
    for(;;){
       t = tokenizer->GetToken();
       switch( t.id )
       {
       case T_SCALE:
          ParseVector(v);
-         //trans.setScale(v);
-         /*
-         trans = new Scale(v);
-         s.addTrans(trans);
-         */
          s.addScale(v);
          break;
       case T_ROTATE:
          angle = ParseDouble();
          ParseVector(v);
-         //trans.setRotation(v[0],v[1],v[2]);
-         /*
-         trans = new Rotate(angle, v);
-         s.addTrans(trans);
-         */
          s.addRotate(angle, v);
          break;
       case T_TRANSLATE:
          ParseVector(v);
-         //trans.setTranslation(v[0],v[1],v[2]);
-         /*
-         trans = new Translate(v);
-         s.addTrans(trans);
-         */
          s.addTranslate(v);
          break;
          /* once we run into an unknown token, we assume there are no
@@ -159,10 +142,8 @@ void NYUParser::ParsePigment(Material & p)
 {
    Token t;
    ParseLeftCurly();
-   // while(1){
    for(;;)
    {
-      // GetToken();
       t = tokenizer->GetToken();
       float f = 0.0f;
       if( t.id == T_COLOR)
