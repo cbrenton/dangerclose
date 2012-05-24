@@ -21,20 +21,22 @@ ERROR = -Werror
 CFLAGS = $(OPTIMIZE) -Wall -c $(DEBUG) $(ERROR) $(IFLAGS)
 LDFLAGS = $(OPTIMIZE) $(DEBUG) $(ERROR) $(LFLAGS)
 
-TARGET = dangerclose
-INPUTEXT=pov
-INPUTDIR=input
-#INPUTFILE=bunny_small
-#INPUTFILE=simple_plane
-INPUTFILE=test
-OUTPUTDIR=images
-OUTPUTEXT=tga
-WIDTH  = 300
-HEIGHT = 200
-ARGS = -w $(WIDTH) -h $(HEIGHT) -i $(INPUTDIR)/$(INPUTFILE).$(INPUTEXT)
+TARGET     = dangerclose
+INPUTEXT   = pov
+INPUTDIR   = input
+#INPUTFILE  = bunny_small
+#INPUTFILE  = simple_plane
+INPUTFILE  = test
+OUTPUTDIR  = images
+OUTPUTEXT  = tga
+FALLOFF    = 1.0f
+INTENSITY  = 0.6f
+WIDTH      = 300
+HEIGHT     = 200
+ARGS       = -w $(WIDTH) -h $(HEIGHT) -f $(FALLOFF) -p $(INTENSITY) -i $(INPUTDIR)/$(INPUTFILE).$(INPUTEXT)
 BIG_WIDTH  = 900
 BIG_HEIGHT = 600
-BIG_ARGS = -w $(BIG_WIDTH) -h $(BIG_HEIGHT) -i $(INPUTDIR)/$(INPUTFILE).$(INPUTEXT)
+BIG_ARGS   = -w $(BIG_WIDTH) -h $(BIG_HEIGHT) -f $(FALLOFF) -p $(INTENSITY) -i $(INPUTDIR)/$(INPUTFILE).$(INPUTEXT)
 
 # Additional linker libraries
 LIBS = $(LIBFLAGS)

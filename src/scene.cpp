@@ -50,26 +50,30 @@ Scene * Scene::read(std::string filename)
  * @param self the Geometry object being tested.
  * @return the distance to the closest object in the Scene.
  */
-float Scene::closest(vec3 *pt, Geometry *self)
+float Scene::closest(vec3 *pt, vec3 *color)
 {
    float closestD = MAX_D;
    if (gVec.size() == 0)
       return closestD;
+   int closeNdx = 0;
    for (int ndx = 0; ndx < (int)gVec.size(); ndx++)
    {
-      if (gVec[ndx] != self)
+      float curDist = abs(gVec[ndx]->getDist(pt, NULL));
+      if (curDist < closestD)
       {
-         float curDist = abs(gVec[ndx]->getDist(pt, NULL));
-         if (curDist < closestD)
-         {
-            closestD = curDist;
-         }
+         closestD = curDist;
+         closeNdx = ndx;
       }
+   }
+   if (color != NULL)
+   {
+      *color = gVec[closeNdx]->mat.color * 0.3f;
    }
    return closestD;
 }
 
-float Scene::closestDist(vec3 *pt, vec3 *dir, vec3 *colorOut, vec3 *noOccludeColorOut, int hopCount)
+float Scene::closestDist(vec3 *pt, vec3 *dir, vec3 *colorOut,
+      vec3 *noOccludeColorOut, int hopCount, float falloff, float intensity)
 {
    float closestD = MAX_D;
    if (gVec.size() == 0)
@@ -78,24 +82,18 @@ float Scene::closestDist(vec3 *pt, vec3 *dir, vec3 *colorOut, vec3 *noOccludeCol
    for (int ndx = 0; ndx < (int)gVec.size(); ndx++)
    {
       float curDist = gVec[ndx]->getDist(pt, dir);
-      // TODO: Tweak these variables?
-      //if (curDist < closestD && curDist >= -EPSILON * 10000.f)
       if (curDist < closestD)
       {
          closestD = curDist;
          closestPrim = gVec[ndx];
       }
    }
-   // TODO: Put this in main. Onlu calculate color if there is a hit.
-   // TODO: Tweak these variables?
-   //if (abs(closestD) <= EPSILON * 10000.f)
-   //{
-      vec3 normal = closestPrim->getNormal(pt);
-      vec3 offset = *pt + normal;
-      //float proximity = closest(pt, closestPrim);
-      float proximity = closest(&offset);
-      *colorOut = closestPrim->getColor(pt, dir, hopCount, lVec, proximity, noOccludeColorOut);
-   //}
+   vec3 normal = closestPrim->getNormal(pt);
+   vec3 offset = *pt + normal;
+   vec3 bleed;
+   float proximity = closest(&offset, &bleed);
+   *colorOut = closestPrim->getColor(pt, dir, hopCount, lVec, proximity,
+         falloff, intensity, noOccludeColorOut, &bleed);
    return closestD;
 }
 

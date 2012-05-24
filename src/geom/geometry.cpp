@@ -34,7 +34,23 @@ float Geometry::dist(vec3 *pt, vec3 *dir)
    return 0.f;
 }
 
-vec3 Geometry::getColor(vec3 *pt, vec3 *dir, int hopCount, std::vector<Light *>lVec, float proximity, vec3 *noOccludeColor, bool doOcclude)
+
+/**
+ * @param pt the point at which color is being calculated.
+ * @param dir the direction of the view vector.
+ * @param hopCount the number of steps taken in the ray marching algorithm.
+ * @param lVec the vector of all lights in the current scene.
+ * @param proximity the distance to the closest object in the scene.
+ * @param falloff the distance at which there will be no occlusion.
+ * @param intensity the maximum contribution value of ambient occlusion.
+ * @param noOccludeColor the vec3 containing the color of the pixel for the
+ *    image without ambient occlusion.
+ * @param doOcclude whether to calculate ambient occlusion.
+ * @returns the correct color at the specified point.
+ */
+vec3 Geometry::getColor(vec3 *pt, vec3 *dir, int hopCount,
+      std::vector<Light *>lVec, float proximity, float falloff, float intensity,
+      vec3 *noOccludeColor, vec3 *bleed, bool doOcclude)
 {
    vec3 result;
    if (lVec.empty())
@@ -86,16 +102,16 @@ vec3 Geometry::getColor(vec3 *pt, vec3 *dir, int hopCount, std::vector<Light *>l
    // Ambient occlusion.
    if (doOcclude)
    {
-      // The distance at which there will be no occlusion.
-      float falloff = 1.0f;
-      // The maximum contribution value of ambient occlusion.
-      float intensity = 0.8f;
       if (proximity <= falloff)
       {
          proximity = mCLAMP(proximity, 0.0f, falloff);
          float colorMag = proximity / falloff;
          colorMag = colorMag * intensity + (1.0f - intensity);
          result *= colorMag;
+         // TODO: Make this better.
+         float bleedIntensity = (1.0f - colorMag) * 0.4f;
+         *bleed *= bleedIntensity;
+         result += *bleed;
       }
    }
 

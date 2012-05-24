@@ -13,6 +13,8 @@
 
 #define DEFAULT_W 256
 #define DEFAULT_H 256
+#define DEFAULT_FALLOFF 0.0f
+#define DEFAULT_INTENSITY 0.0f
 #define DEFAULT_FILENAME "out.png"
 
 #define INPUT_EXT ".pov"
@@ -21,12 +23,16 @@ using namespace glm;
 
 int width = DEFAULT_W;
 int height = DEFAULT_H;
+float falloff = DEFAULT_FALLOFF;
+float intensity = DEFAULT_INTENSITY;
 std::string inputFileName;
 std::string filename, noOccludeFilename;
 Scene *scene;
 
 void setWidth(char* strIn);
 void setHeight(char* strIn);
+void setFalloff(char* strIn);
+void setIntensity(char* strIn);
 void setFilename(char* strIn);
 float r2d(float rads);
 void initScene();
@@ -36,16 +42,27 @@ int main(int argc, char **argv)
    srand((int)time(NULL));
 
    int c;
-   while ((c = getopt(argc, argv, "i:I:h:H:w:W:")) != -1)
+   while ((c = getopt(argc, argv, "f:F:i:I:h:H:p:P:w:W:")) != -1)
    {
       switch (c)
       {
+      // "Falloff" (ambient occlusion).
+      case 'f': case 'F':
+         setFalloff(optarg);
+         break;
+      // "Height".
       case 'h': case 'H':
          setHeight(optarg);
          break;
+      // "Input file".
       case 'i': case 'I':
          setFilename(optarg);
          break;
+      // "Power"/intensity (ambient occlusion).
+      case 'p': case 'P':
+         setIntensity(optarg);
+         break;
+      // "Width".
       case 'w': case 'W':
          setWidth(optarg);
          break;
@@ -131,9 +148,10 @@ int main(int argc, char **argv)
          while (!hit && rayDist < MAX_D)
          {
             // Check distance to sphere.
-            float d = scene->closestDist(&ray, &rayDir, hitColor, noOccludeColor, hops);
-            // If distance is less than or equal to epsilon, count as a hit.
-            if (d <= EPSILON)
+            float d = scene->closestDist(&ray, &rayDir, hitColor,
+                  noOccludeColor, hops, falloff, intensity);
+            // If distance is within epsilon, count as a hit.
+            if (abs(d) <= EPSILON)
             {
                hit = true;
             }
@@ -192,6 +210,26 @@ void setHeight(char* strIn)
    if (height <= 0)
    {
       fprintf(stderr, "Invalid height.\n");
+      exit(EXIT_FAILURE);
+   }
+}
+
+void setFalloff(char* strIn)
+{
+   falloff = atof(strIn);
+   if (height <= 0)
+   {
+      fprintf(stderr, "Invalid falloff.\n");
+      exit(EXIT_FAILURE);
+   }
+}
+
+void setIntensity(char* strIn)
+{
+   intensity = atof(strIn);
+   if (height <= 0.0f)
+   {
+      fprintf(stderr, "Invalid intensity.\n");
       exit(EXIT_FAILURE);
    }
 }
