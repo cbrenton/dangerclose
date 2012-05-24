@@ -90,7 +90,10 @@ float Scene::closestDist(vec3 *pt, vec3 *dir, vec3 *colorOut, vec3 *noOccludeCol
    // TODO: Tweak these variables?
    //if (abs(closestD) <= EPSILON * 10000.f)
    //{
-      float proximity = closest(pt, closestPrim);
+      vec3 normal = closestPrim->getNormal(pt);
+      vec3 offset = *pt + normal;
+      //float proximity = closest(pt, closestPrim);
+      float proximity = closest(&offset);
       *colorOut = closestPrim->getColor(pt, dir, hopCount, lVec, proximity, noOccludeColorOut);
    //}
    return closestD;

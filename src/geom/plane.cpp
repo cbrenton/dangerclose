@@ -27,12 +27,14 @@ float Plane::dist(vec3 *pt, vec3 *dir)
       return numerator / denominator;
    //return dot(*pt, normal) - offset;
    */
+   /*
    // TODO: Make this its own class. Put in wavy?
    float f1 = 10.0 * sin(pt->z * 0.125) * cos(pt->x * 0.125); // texture(uTex0, vPos.xz * 0.05).r; //
    float f2 = pt->y;
    const float fThickness = 0.0;
    return (f2 - f1) - fThickness;
-   //return dot(*pt, normal) - offset;
+   */
+   return dot(*pt, normal) - offset;
 }
 
 void Plane::debug()
