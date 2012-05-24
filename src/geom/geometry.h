@@ -24,7 +24,7 @@ class Geometry
       virtual ~Geometry();
       virtual float getDist(glm::vec3 *pt, glm::vec3 *dir = NULL);
       virtual float dist(glm::vec3 *pt, glm::vec3 *dir = NULL);
-      virtual glm::vec3 getColor(glm::vec3 *pt, glm::vec3 *dir, int hopCount, std::vector<Light *>l, float proximity);
+      virtual glm::vec3 getColor(glm::vec3 *pt, glm::vec3 *dir, int hopCount, std::vector<Light *>l, float proximity, glm::vec3 *noOccludeColor = NULL, bool doOcclude = true);
       virtual void setColor(glm::vec3 c);
       virtual void setMat(Material m);
       //virtual void addTrans(Transform *t);

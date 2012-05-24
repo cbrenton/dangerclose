@@ -35,7 +35,7 @@ float Geometry::dist(vec3 *pt, vec3 *dir)
 }
 
 // TODO: Iterate over all lights.
-vec3 Geometry::getColor(vec3 *pt, vec3 *dir, int hopCount, std::vector<Light *>lVec, float proximity)
+vec3 Geometry::getColor(vec3 *pt, vec3 *dir, int hopCount, std::vector<Light *>lVec, float proximity, vec3 *noOccludeColor, bool doOcclude)
 {
    //vec3 result = vec3(0.f);
    vec3 result;
@@ -80,15 +80,23 @@ vec3 Geometry::getColor(vec3 *pt, vec3 *dir, int hopCount, std::vector<Light *>l
       }
    }
 
-   // Ambient occlusion.
-   float scale = 0.3f;
-   float maxOcclude = 0.3f;
-   if (proximity <= scale)
+   if (noOccludeColor != NULL)
    {
-      proximity = mCLAMP(proximity, 0.0f, scale);
-      float colorMag = proximity / scale;
-      colorMag = colorMag * maxOcclude + (1.0f - maxOcclude);
-      result *= colorMag;
+      *noOccludeColor = result;
+   }
+
+   // Ambient occlusion.
+   if (doOcclude)
+   {
+      float scale = 0.3f;
+      float maxOcclude = 0.3f;
+      if (proximity <= scale)
+      {
+         proximity = mCLAMP(proximity, 0.0f, scale);
+         float colorMag = proximity / scale;
+         colorMag = colorMag * maxOcclude + (1.0f - maxOcclude);
+         result *= colorMag;
+      }
    }
 
    result = clamp(result, 0.0f, 1.0f);

@@ -69,10 +69,9 @@ float Scene::closest(vec3 *pt, Geometry *self)
    return closestD;
 }
 
-float Scene::closestDist(vec3 *pt, vec3 *dir, vec3 *colorOut, int hopCount)
+float Scene::closestDist(vec3 *pt, vec3 *dir, vec3 *colorOut, vec3 *noOccludeColorOut, int hopCount)
 {
    float closestD = MAX_D;
-   vec3 color;
    if (gVec.size() == 0)
       return closestD;
    Geometry *closestPrim = gVec[0];
@@ -88,8 +87,7 @@ float Scene::closestDist(vec3 *pt, vec3 *dir, vec3 *colorOut, int hopCount)
    if (abs(closestD) <= EPSILON)
    {
       float proximity = closest(pt, closestPrim);
-      color = closestPrim->getColor(pt, dir, hopCount, lVec, proximity);
-      *colorOut = color;
+      *colorOut = closestPrim->getColor(pt, dir, hopCount, lVec, proximity, noOccludeColorOut);
    }
    return closestD;
 }

@@ -22,7 +22,7 @@ using namespace glm;
 int width = DEFAULT_W;
 int height = DEFAULT_H;
 std::string inputFileName;
-std::string filename;
+std::string filename, noOccludeFilename;
 Scene *scene;
 
 void setWidth(char* strIn);
@@ -58,6 +58,7 @@ int main(int argc, char **argv)
 
    // TODO: Initialize image.
    Image img(width, height, filename);
+   Image noOccludeImg(width, height, noOccludeFilename);
 
    // Initialize scene.
    initScene();
@@ -124,12 +125,13 @@ int main(int argc, char **argv)
          vec3 rayDir = aRayArray[x][y]->dir;
          bool hit = false;
          vec3 *hitColor = new vec3;
+         vec3 *noOccludeColor = new vec3;
          float rayDist = distance(aRayArray[x][y]->pt, ray);
          int hops = 0;
          while (!hit && rayDist < MAX_D)
          {
             // Check distance to sphere.
-            float d = scene->closestDist(&ray, &rayDir, hitColor, hops);
+            float d = scene->closestDist(&ray, &rayDir, hitColor, noOccludeColor, hops);
             // If distance is less than or equal to epsilon, count as a hit.
             if (d <= EPSILON)
             {
@@ -146,14 +148,17 @@ int main(int argc, char **argv)
          if (hit)
          {
             img.setPixel(x, y, hitColor);
+            noOccludeImg.setPixel(x, y, noOccludeColor);
          }
          delete hitColor;
+         delete noOccludeColor;
       }
    }
    printf("\n");
 
    // Write image out to file.
    img.write();
+   noOccludeImg.write();
    
    // Cleanup.
    for (int i = 0; i < width; i++)
@@ -207,7 +212,10 @@ void setFilename(char* strIn)
    int extIndex = (int)inputFileName.rfind(INPUT_EXT);
    filename = "images/";
    filename.append(inputFileName.substr(dirIndex + 1, extIndex - dirIndex - 1));
+   noOccludeFilename = filename;;
+   noOccludeFilename.append("_no_occlude");
    filename.append(".tga");
+   noOccludeFilename.append(".tga");
 }
 
 float r2d(float rads)
