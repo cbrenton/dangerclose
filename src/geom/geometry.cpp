@@ -84,6 +84,7 @@ vec3 Geometry::getColor(vec3 *pt, vec3 *dir, int hopCount,
       vec3 r = normalize(reflect(light, normal));
       vec3 v = normalize(*dir);
       float rDotV = dot(r, v);
+      rDotV = std::max(rDotV, 0.0f);
       rDotV = (float)pow(rDotV, 1.0f / mat.rough);
       rDotV = std::min(rDotV, 1.0f);
       if (rDotV > 0.0f)
@@ -109,7 +110,7 @@ vec3 Geometry::getColor(vec3 *pt, vec3 *dir, int hopCount,
          colorMag = colorMag * intensity + (1.0f - intensity);
          result *= colorMag;
          // TODO: Make this better.
-         float bleedIntensity = (1.0f - colorMag) * 0.4f;
+         float bleedIntensity = (1.0f - colorMag) * mat.kS;
          *bleed *= bleedIntensity;
          result += *bleed;
       }
