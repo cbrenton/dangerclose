@@ -19,6 +19,10 @@ Scene::~Scene()
    {
       delete gVec[ndx];
    }
+   for (int ndx = 0; ndx < (int)lVec.size(); ndx++)
+   {
+      delete lVec[ndx];
+   }
 }
 
 Scene * Scene::read(std::string filename)

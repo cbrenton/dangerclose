@@ -6,8 +6,8 @@
 #include "light.h"
 #include "material.h"
 
-#define EPSILON 0.0001f
-#define MAX_D 100.f
+#define EPSILON 0.001f
+#define MAX_D 1000.f
 
 #define mPR_VEC(a) printf("<%f, %f, %f>", (a).x, (a).y, (a).z)
 #define mPRLN_VEC(a) printf("<%f, %f, %f>\n", (a).x, (a).y, (a).z)

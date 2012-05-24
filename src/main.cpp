@@ -147,6 +147,7 @@ int main(int argc, char **argv)
          {
             img.setPixel(x, y, hitColor);
          }
+         delete hitColor;
       }
    }
    printf("\n");
