@@ -28,12 +28,21 @@ class Geometry
       virtual void setColor(glm::vec3 c);
       virtual void setMat(Material m);
       virtual void addTrans(Transform *t);
+      /*
+      virtual void addTranslate(glm::vec3 d);
+      virtual void addRotate(float angle, glm::vec3 d);
+      virtual void addScale(glm::vec3 d);
+      */
       virtual glm::vec3 getNormal(glm::vec3 *pt);
       virtual void debug();
       Material mat;
    protected:
       std::vector <Transform *> trans;
       glm::vec3 color;
+      /*
+      glm::mat4 trans;
+      glm::mat4 invTrans;
+      */
 };
 
 #endif

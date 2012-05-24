@@ -44,37 +44,20 @@ vec3 Geometry::getColor(vec3 *pt, int hopCount, Light *l, float proximity)
    //return nDotL * l->color;
    //return clamp(nDotL * mat.color, 0.0f, 1.0f);
 
-   float occludeD = proximity;
-   float scale = 0.15f;
-   if (occludeD > scale)
+   float scale = 0.5f;
+   float maxOcclude = 0.3f;
+   vec3 cheatAmbient = vec3(0.2f);
+   if (proximity > scale)
    {
-      return vec3(0.0f, 0.0f, 1.0f);
-   //return clamp(nDotL * mat.color, 0.0f, 1.0f);
-      //occludeD = scale;
+      //return mat.color;
+      return clamp(nDotL * mat.color + vec3(cheatAmbient), 0.0f, 1.0f);
+      //proximity = scale;
    }
-   occludeD = mCLAMP(occludeD, 0.0f, scale);
-   //printf("closest: %f\n", occludeD);
-   //float colorMag = occludeD / scale;
-   float colorMag = occludeD;
+   proximity = mCLAMP(proximity, 0.0f, scale);
+   float colorMag = proximity / scale;
    colorMag = mCLAMP(colorMag, 0.0f, 1.0f);
-   /*
-   if (dynamic_cast<Plane *>(this) != NULL && colorMag != 1.0f)
-   {
-      printf("plane colorMag: %f\n", colorMag);
-      //return vec3(0.0f, 1.0f, 0.0f);
-   }
-   */
-   //printf("\tcolorMag: %f\n", colorMag);
-   //return vec3(1.0f - colorMag);
-   return vec3(colorMag);
-
-   /*
-   vec3 preOcclude = clamp(nDotL * mat.color, 0.0f, 1.0f);
-   float maxHops = 15.f;
-   preOcclude /= maxHops;
-   preOcclude *= std::min(maxHops, (float)hopCount);
-   return preOcclude;
-   */
+   colorMag = colorMag * maxOcclude + (1.0f - maxOcclude);
+   return clamp(nDotL * mat.color * colorMag + cheatAmbient, 0.0f, 1.0f);
 }
 
 void Geometry::setColor(vec3 c)
