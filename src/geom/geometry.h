@@ -25,9 +25,7 @@ class Geometry
       virtual float getDist(glm::vec3 *pt, glm::vec3 *dir = NULL);
       virtual float dist(glm::vec3 *pt, glm::vec3 *dir = NULL);
       virtual glm::vec3 getColor(glm::vec3 *pt, glm::vec3 *dir, int hopCount,
-            std::vector<Light *>l, float proximity, float falloff = 0.0f, float
-            intensity = 0.0f, glm::vec3 *noOccludeColor = NULL, glm::vec3 *bleed = NULL,
-            bool doOcclude = true);
+            std::vector<Light *>l);
       virtual void setColor(glm::vec3 c);
       virtual void setMat(Material m);
       //virtual void addTrans(Transform *t);
@@ -42,6 +40,7 @@ class Geometry
       glm::vec3 color;
       glm::mat4 trans;
       glm::mat4 invTrans;
+      Scene *parent;
 };
 
 #endif

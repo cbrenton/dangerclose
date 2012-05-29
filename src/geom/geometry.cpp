@@ -40,17 +40,10 @@ float Geometry::dist(vec3 *pt, vec3 *dir)
  * @param dir the direction of the view vector.
  * @param hopCount the number of steps taken in the ray marching algorithm.
  * @param lVec the vector of all lights in the current scene.
- * @param proximity the distance to the closest object in the scene.
- * @param falloff the distance at which there will be no occlusion.
- * @param intensity the maximum contribution value of ambient occlusion.
- * @param noOccludeColor the vec3 containing the color of the pixel for the
- *    image without ambient occlusion.
- * @param doOcclude whether to calculate ambient occlusion.
  * @returns the correct color at the specified point.
  */
 vec3 Geometry::getColor(vec3 *pt, vec3 *dir, int hopCount,
-      std::vector<Light *>lVec, float proximity, float falloff, float intensity,
-      vec3 *noOccludeColor, vec3 *bleed, bool doOcclude)
+      std::vector<Light *>lVec)
 {
    vec3 result;
    if (lVec.empty())
@@ -64,12 +57,13 @@ vec3 Geometry::getColor(vec3 *pt, vec3 *dir, int hopCount,
    result.y = mat.kA * mat.color.y;
    result.z = mat.kA * mat.color.z;
 
+   vec3 normal = getNormal(pt);
+
    for (int i = 0; i < (int)lVec.size(); i++)
    {
       Light *l = lVec[i];
 
       // Diffuse.
-      vec3 normal = getNormal(pt);
       vec3 light = normalize(l->loc - *pt);
       float nDotL = dot(normal, light);
       nDotL = std::min(nDotL, 1.0f);
@@ -92,27 +86,6 @@ vec3 Geometry::getColor(vec3 *pt, vec3 *dir, int hopCount,
          result.x += mat.kS * mat.color.x * rDotV * l->color.x;
          result.y += mat.kS * mat.color.y * rDotV * l->color.y;
          result.z += mat.kS * mat.color.z * rDotV * l->color.z;
-      }
-   }
-
-   if (noOccludeColor != NULL)
-   {
-      *noOccludeColor = result;
-   }
-
-   // Ambient occlusion.
-   if (doOcclude)
-   {
-      if (proximity <= falloff)
-      {
-         proximity = mCLAMP(proximity, 0.0f, falloff);
-         float colorMag = proximity / falloff;
-         colorMag = colorMag * intensity + (1.0f - intensity);
-         result *= colorMag;
-         // TODO: Make this better.
-         float bleedIntensity = (1.0f - colorMag) * mat.kS;
-         *bleed *= bleedIntensity;
-         result += *bleed;
       }
    }
 

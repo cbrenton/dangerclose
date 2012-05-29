@@ -5,7 +5,7 @@ camera {
    look_at   <0, 0, 0>
 }
 
-light_source {<0, 10, 0> color rgb <1.5, 1.5, 1.5>}
+light_source {<0, 10, 10> color rgb <1.5, 1.5, 1.5>}
 //light_source {<0, 1, 0> color rgb <1.5, 1.5, 1.5>}
 
 sphere {<5, 0, 1.6>, 2
