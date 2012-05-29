@@ -12,6 +12,7 @@
 #define mPR_VEC(a) printf("<%f, %f, %f>", (a).x, (a).y, (a).z)
 #define mPRLN_VEC(a) printf("<%f, %f, %f>\n", (a).x, (a).y, (a).z)
 #define mCLAMP(a, small, large) (std::min(std::max((a), (small)), (large)))
+#define mMAX_COMP(v) std::max((v).x, std::max((v).y, (v).z))
 
 class Transform;
 

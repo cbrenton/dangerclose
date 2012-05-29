@@ -34,7 +34,8 @@ class Scene
             glm::vec3 *noOccludeColorOut, int hopCount, float falloff = 0.0f,
             float intensity = 0.0f);
       float ao(glm::vec3 *pt, glm::vec3 *n, float falloff, float intensity);
-      float sss(glm::vec3 *pt, glm::vec3 *dir, float d, float i, Geometry *prim);
+      void sss(glm::vec3 *pt, glm::vec3 *dir, Geometry *prim,
+            std::vector<Light *>l, glm::vec3 *colorOut);
       void addGeom(Geometry *g);
       void addLight(Light *l);
       void setCamera(Camera c);

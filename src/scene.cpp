@@ -85,20 +85,21 @@ float Scene::closestDist(vec3 *pt, vec3 *dir, vec3 *colorOut,
    if (abs(closestD) <= EPSILON)
    {
       *colorOut = closestPrim->getColor(pt, dir, hopCount, lVec);
-      //vec3 n = closestPrim->getNormal(pt);
+      vec3 n = closestPrim->getNormal(pt);
       if (noOccludeColorOut)
       {
          *noOccludeColorOut = *colorOut;
       }
+      sss(pt, dir, closestPrim, lVec, colorOut);
       //*colorOut *= ao(pt, &n, falloff, intensity);
-      //*colorOut *= vec3(sss(pt, dir, 0.0f, 0.0f, closestPrim));
-      float subsurf = sss(pt, dir, 0.0f, 0.0f, closestPrim);
-      if (subsurf != 1.0f)
-      {
-         //printf("subsurf: %f\n", subsurf);
-         //*colorOut = vec3(1.0f, 0.0f, 0.0f);
-         *colorOut *= subsurf;
+      /*
+         if (subsurf != 1.0f)
+         {
+      //printf("subsurf: %f\n", subsurf);
+       *colorOut = vec3(1.0f, 0.0f, 0.0f);
+      // *colorOut *= subsurf;
       }
+      */
    }
    return closestD;
 }
@@ -139,35 +140,54 @@ float Scene::ao(glm::vec3 *pt, glm::vec3 *n, float falloff, float intensity)
  * @param prim the Geometry object the original point is located on.
  * @returns the coefficient of subsurface scattering.
  */
-float Scene::sss(vec3 *pt, vec3 *dir, float d, float i, Geometry *prim)
+void Scene::sss(vec3 *pt, vec3 *dir, Geometry *prim, std::vector<Light *>lVec, vec3 *colorOut)
 {
-   vec3 offset = *pt + *dir * 0.5f;
-   //float proximity = closest(&offset);
-   float proximity = prim->getDist(&offset);
-   if (proximity > 0.0f)
+   int samples = 48;
+   float depthScale = 0.6f;
+   float intensity = 0.3f;
+   vec3 newColor;
+   // For number of samples:
+   for (int i = 0; i < samples; i++)
    {
-      //printf("sss proximity: %f\n", proximity);
-      return 1.0f + proximity * 3.0f;
+      // Jitter randomly.
+      vec3 jitter = vec3((float)(rand() % 300) / 3000.f, (float)(rand() % 300) / 3000.f, (float)(rand() % 300) / 3000.f);
+      vec3 newPt = *pt + jitter + *dir * depthScale;
+      // Cast ray into surface.
+      float dist = prim->getDist(&newPt);
+      //printf("dist: %f\n", dist);
+      // If new point is within object:
+      //if (dist >= 0.0f && dist < 0.05f)
+      if (dist >= 0.0f && dist < 0.1f)
+      {
+         // Find color at new point.
+         float factor = std::max(0.0f, dist / 0.3f);
+         vec3 sampleColor = prim->getColor(&newPt, dir, 0, lVec);
+         sampleColor *= factor;
+         // Add new color to total color.
+         newColor += sampleColor;
+      }
+      else
+      {
+         newColor += *colorOut;
+      }
+      // Else if new point is outside of object:
+      /*
+      vec3 newPt2 = *pt + *dir * depthScale;
+      if (prim->getDist(&newPt2) > 0.05f)
+      {
+         //printf("dist: %f\n", dist);
+         float factor = dist / 0.4f;
+         // *colorOut = vec3(factor, 0.0f, 0.0f);
+         vec3 sampleColor = vec3(factor, 0.0f, 0.0f);
+         newColor += sampleColor;
+      }
+      */
    }
-   /*
-   if (proximity <= falloff)
-   {
-      proximity = mCLAMP(proximity, 0.0f, falloff);
-      float colorMag = proximity / falloff;
-      colorMag = colorMag * intensity + (1.0f - intensity);
-      return colorMag;
-   }
-   */
-   return 1.0f;
-   /*
-   float o;
-   for (o=0.f;i>0.f;i--) {
-      vec3 newPt = vec3(*pt + *n * i * d);
-      float f = prim->getDist(&newPt);
-      o+=(i*d+f)/exp2(i);
-   }
-   return o;
-   */
+   // Divide color by number of samples.
+   newColor /= (float)samples;
+   newColor *= intensity;
+   // Add color to colorOut.
+   *colorOut += newColor;
 }
 
 void Scene::addGeom(Geometry *g)
