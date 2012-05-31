@@ -11,7 +11,7 @@ force:
 	@make clean all
 
 test:
-	@make run eog
+	@make big eog
 
 lib:
 	@make lib -C ../

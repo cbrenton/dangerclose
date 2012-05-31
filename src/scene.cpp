@@ -90,8 +90,10 @@ float Scene::closestDist(vec3 *pt, vec3 *dir, vec3 *colorOut,
       {
          *noOccludeColorOut = *colorOut;
       }
-      sss(pt, dir, closestPrim, lVec, colorOut);
-      //*colorOut *= ao(pt, &n, falloff, intensity);
+      // TODO: Maybe fix this? I don't like it right now.
+      //sss(pt, dir, closestPrim, lVec, colorOut);
+
+      *colorOut *= ao(pt, &n, falloff, intensity);
       /*
          if (subsurf != 1.0f)
          {
@@ -142,8 +144,8 @@ float Scene::ao(glm::vec3 *pt, glm::vec3 *n, float falloff, float intensity)
  */
 void Scene::sss(vec3 *pt, vec3 *dir, Geometry *prim, std::vector<Light *>lVec, vec3 *colorOut)
 {
-   int samples = 48;
-   float depthScale = 0.6f;
+   int samples = 1;
+   float depthScale = 1.0f;
    float intensity = 0.3f;
    vec3 newColor;
    // For number of samples:
@@ -157,10 +159,12 @@ void Scene::sss(vec3 *pt, vec3 *dir, Geometry *prim, std::vector<Light *>lVec, v
       //printf("dist: %f\n", dist);
       // If new point is within object:
       //if (dist >= 0.0f && dist < 0.05f)
-      if (dist >= 0.0f && dist < 0.1f)
+      if (dist >= 0.0f && dist < 0.005f)
       {
          // Find color at new point.
-         float factor = std::max(0.0f, dist / 0.3f);
+         float factor = std::min(1.0f, std::max(0.0f, dist));
+         factor = pow(factor, 3);
+         //factor /= 0.3;
          vec3 sampleColor = prim->getColor(&newPt, dir, 0, lVec);
          sampleColor *= factor;
          // Add new color to total color.

@@ -3,6 +3,8 @@
 
 #include "geom/geometry.h"
 
+#define lerp(t, a, b) ( a + t * (b - a) )
+
 class Sphere : public Geometry
 {
    public:
@@ -10,6 +12,8 @@ class Sphere : public Geometry
       ~Sphere() {};
       float dist(glm::vec3 *pt, glm::vec3 *dir = NULL);
       void debug();
+      float smoothstep(float edge0, float edge1, float x);
+      float spikeball(glm::vec3 p, float t);
    private:
       float rad;
 };
