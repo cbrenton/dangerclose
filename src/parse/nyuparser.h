@@ -39,6 +39,9 @@ class NYUParser{
       // void InitModifiers(struct ModifierStruct* modifiers);
       // void ParseModifiers(struct ModifierStruct* modifiers);
       // void PrintModifiers(struct ModifierStruct* modifiers);
+      void ParseSubtract(Geometry & s);
+      void ParseIntersect(Geometry & s);
+      void ParseUnion(Geometry & s);
       void ParseModifiers(Geometry & s);
       void PrintModifiers(Geometry & s);
       Camera ParseCamera();

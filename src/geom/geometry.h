@@ -36,6 +36,9 @@ class Geometry
       virtual glm::vec3 getNormal(glm::vec3 *pt);
       virtual void debug();
       Material mat;
+      Geometry *csg_sub;
+      Geometry *csg_int;
+      Geometry *csg_un;
    protected:
       //std::vector <Transform *> trans;
       glm::vec3 color;

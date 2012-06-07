@@ -6,6 +6,7 @@ using namespace glm;
 Spikeball::Spikeball(float _rad) :
    rad(_rad)
 {
+   trans = mat4(1.f);
 }
 
 float Spikeball::dist(vec3 *pt, vec3 *dir)

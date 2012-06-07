@@ -266,10 +266,68 @@ void NYUParser::ParseInterior(float & ior){
    }
    */
 
+void NYUParser::ParseSubtract(Geometry & s)
+{
+   Token t = tokenizer->GetToken();
+
+   if(t.id != T_EOF)
+   {
+      switch(t.id)
+      {
+      case T_SPHERE:
+         s.csg_sub = ParseSphere();
+         break;
+      case T_BOX:
+         s.csg_sub = ParseBox();
+         break;
+      default:
+         tokenizer->Error("Unknown statement");
+      }
+   }
+}
+
+void NYUParser::ParseIntersect(Geometry & s)
+{
+   Token t = tokenizer->GetToken();
+
+   if(t.id != T_EOF)
+   {
+      switch(t.id)
+      {
+      case T_SPHERE:
+         s.csg_int = ParseSphere();
+         break;
+      case T_BOX:
+         s.csg_int = ParseBox();
+         break;
+      default:
+         tokenizer->Error("Unknown statement");
+      }
+   }
+}
+
+void NYUParser::ParseUnion(Geometry & s)
+{
+   Token t = tokenizer->GetToken();
+
+   if(t.id != T_EOF)
+   {
+      switch(t.id)
+      {
+      case T_SPHERE:
+         s.csg_un = ParseSphere();
+         break;
+      case T_BOX:
+         s.csg_un = ParseBox();
+         break;
+      default:
+         tokenizer->Error("Unknown statement");
+      }
+   }
+}
 
 void NYUParser::ParseModifiers(Geometry & s){
    Token t;
-   // while[1]{
    for(;;)
    {
       // GetToken();
@@ -291,6 +349,11 @@ void NYUParser::ParseModifiers(Geometry & s){
       case T_FINISH:
          // ParseFinish(&(modifiers->finish));
          ParseFinish(s.mat);
+         break;
+      //case T_SPHERE: case T_BOX:
+      case T_SUBTRACT:
+         //tokenizer->UngetToken();
+         ParseSubtract(s);
          break;
          /*
             case T_INTERIOR:
@@ -383,10 +446,9 @@ Sphere * NYUParser::ParseSphere()
    ParseLeftCurly();
    glm::vec3 translateVec;
    ParseVector(translateVec);
+   mPRLN_VEC(translateVec);
    ParseComma();
    Sphere * s = new Sphere(ParseDouble());
-   //Translate *t = new Translate(translate);
-   //s->addTrans(t);
    s->addTranslate(translateVec);
 
    ParseModifiers(*s);
@@ -521,7 +583,6 @@ void NYUParser::parse(std::fstream & input, Scene & s){
    Plane * plane;
 
    // GetToken();
-   // while(Token.id != T_EOF){
    while(t.id != T_EOF)
    {
       switch(t.id)

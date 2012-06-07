@@ -19,13 +19,41 @@ float Geometry::getDist(vec3 *pt, vec3 *dir)
    }
    return dist(pt, dir);
    */
+   //vec3 m = vec3(invTrans * vec4(*pt, 1.f));
    vec3 m = vec3(invTrans * vec4(*pt, 1.f));
+   /*
+      float spacing = 2.00f;
+      m.x = mod((m.x), spacing) - spacing / 2.f;
+      m.y = mod((m.y), spacing) - spacing / 2.f;
+      m.z = mod((m.z), spacing) - spacing / 2.f;
+      */
    if (dir == NULL)
+   {
+      float d1, d2;
+      if (csg_sub)
+      {
+         d1 = csg_sub->dist(&m, dir);
+         d2 = dist(&m, dir);
+         return std::max(-d1, d2);
+      }
+      else
+      {
+         return dist(&m, dir);
+      }
+
+   }
+   vec3 mDir = vec3(invTrans * vec4(*dir, 1.f));
+   float d1, d2;
+   if (csg_sub)
+   {
+      d1 = csg_sub->dist(&m, dir);
+      d2 = dist(&m, dir);
+      return std::max(-d1, d2);
+   }
+   else
    {
       return dist(&m, dir);
    }
-   vec3 mDir = vec3(invTrans * vec4(*dir, 1.f));
-   return dist(&m, &mDir);
 }
 
 float Geometry::dist(vec3 *pt, vec3 *dir)
@@ -120,6 +148,8 @@ void Geometry::setMat(Material m)
 
 void Geometry::addTranslate(vec3 d)
 {
+   if (d.x == 0.f && d.y == 0.f && d.z == 0.f)
+      return;
    trans = translate(trans, d);
    invTrans = inverse(trans);
 }

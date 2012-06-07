@@ -27,6 +27,9 @@ enum TokenIDs {
   T_TRANSLATE,
   T_SCALE,
   T_MATRIX,
+  T_SUBTRACT,
+  T_INTERSECT,
+  T_UNION,
 
   T_POLYGON,
   T_SPHERE,
