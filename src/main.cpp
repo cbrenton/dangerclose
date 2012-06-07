@@ -110,9 +110,9 @@ int main(int argc, char **argv)
          vec3 uVector = cam.right;
          vec3 vVector = cam.up;
          vec3 wVector = cam.look_at - cam.loc;
-         normalize(uVector);
-         normalize(vVector);
-         normalize(wVector);
+         uVector = normalize(uVector);
+         vVector = normalize(vVector);
+         wVector = normalize(wVector);
          // Left-handed.
          wVector *= -1;
          uVector *= uScale;
@@ -133,7 +133,7 @@ int main(int argc, char **argv)
    printf("Testing intersections.\n");
    for (int x = 0; x < width; x++)
    {
-      printf("\r%d / %d", x, width);
+      printf("\r%d / %d", x + 1, width);
       fflush(stdout);
       for (int y = 0; y < height; y++)
       {
