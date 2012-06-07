@@ -21,12 +21,15 @@ float Geometry::getDist(vec3 *pt, vec3 *dir)
    */
    //vec3 m = vec3(invTrans * vec4(*pt, 1.f));
    vec3 m = vec3(invTrans * vec4(*pt, 1.f));
-   /*
-      float spacing = 2.00f;
+
+   if (isMod)
+   {
+      float spacing = modDist;
       m.x = mod((m.x), spacing) - spacing / 2.f;
       m.y = mod((m.y), spacing) - spacing / 2.f;
       m.z = mod((m.z), spacing) - spacing / 2.f;
-      */
+   }
+
    if (dir == NULL)
    {
       float d1, d2;

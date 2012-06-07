@@ -350,10 +350,13 @@ void NYUParser::ParseModifiers(Geometry & s){
          // ParseFinish(&(modifiers->finish));
          ParseFinish(s.mat);
          break;
-      //case T_SPHERE: case T_BOX:
       case T_SUBTRACT:
          //tokenizer->UngetToken();
          ParseSubtract(s);
+         break;
+      case T_MOD:
+         s.modDist = ParseDouble();
+         s.isMod = true;
          break;
          /*
             case T_INTERIOR:

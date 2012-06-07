@@ -10,7 +10,7 @@ ReservedWord Tokenizer::ReservedWords[] = {
    {  T_SUBTRACT,  "subtract" },
    {  T_INTERSECT, "intersect" },
    {  T_UNION,     "union" },
-   {  T_SUBTRACT,  "subtract" },
+   {  T_MOD,       "mod" },
    {  T_POLYGON,   "polygon" },
    {  T_SPHERE,    "sphere" },
    {  T_BOX,       "box" },

@@ -39,6 +39,8 @@ class Geometry
       Geometry *csg_sub;
       Geometry *csg_int;
       Geometry *csg_un;
+      bool isMod;
+      int modDist;
    protected:
       //std::vector <Transform *> trans;
       glm::vec3 color;

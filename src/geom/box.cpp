@@ -18,12 +18,6 @@ float Box::dist(vec3 *pt, vec3 *dir)
 {
    return length(max(abs(*pt) - size, 0.0));
    /*
-   float rad = size * 1.25f;
-   float d1 = length(*pt) - rad;
-   float d2 = length(max(abs(*pt) - size, 0.0));
-   return std::max(-d1, d2);
-   */
-   /*
    // Signed box intersection.
    vec3 di = abs(*pt) - *dir;
    float mc = mMAX_COMP(di);

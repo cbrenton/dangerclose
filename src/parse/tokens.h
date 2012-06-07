@@ -30,6 +30,7 @@ enum TokenIDs {
   T_SUBTRACT,
   T_INTERSECT,
   T_UNION,
+  T_MOD,
 
   T_POLYGON,
   T_SPHERE,

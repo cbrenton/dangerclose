@@ -8,15 +8,13 @@ camera {
 light_source {<0, 10, -10> color rgb <1.5, 1.5, 1.5>}
 light_source {<0, 1, 0> color rgb <1.5, 1.5, 1.5>}
 
-//sphere {<5, 0, 1.6>, 2
-box {0.5
+sphere {<0, 0, 0>, 2
    pigment {color rgb <0.16, 0.03, 0.87>}
    finish {ambient 0.2 diffuse 0.4 specular 0.4 roughness 0.01}
    rotate 30 <0, 0, 1>
    rotate 30 <0, 1, 0>
    rotate 30 <1, 1, 0>
-   mod 3.0
-   subtract sphere {<0, 0, 0>, 0.65
+   subtract sphere {<0, 0, 0>, 1.75
    }
 }
 
