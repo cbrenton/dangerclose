@@ -28,7 +28,7 @@ class Scene
       Scene();
       Scene(std::vector<Geometry *> gVecIn);
       ~Scene();
-      static Scene * read(std::string filename);
+      static Scene * read(std::string filename, float offset = 0.f);
       float closest(glm::vec3 *pt);
       float closestDist(glm::vec3 *pt, glm::vec3 *dir, glm::vec3 *colorOut,
             glm::vec3 *noOccludeColorOut, int hopCount, float falloff = 0.0f,

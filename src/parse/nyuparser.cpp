@@ -449,7 +449,6 @@ Sphere * NYUParser::ParseSphere()
    ParseLeftCurly();
    glm::vec3 translateVec;
    ParseVector(translateVec);
-   mPRLN_VEC(translateVec);
    ParseComma();
    Sphere * s = new Sphere(ParseDouble());
    s->addTranslate(translateVec);

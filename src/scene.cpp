@@ -25,7 +25,7 @@ Scene::~Scene()
    }
 }
 
-Scene * Scene::read(std::string filename)
+Scene * Scene::read(std::string filename, float offset)
 {
    Scene *ret = new Scene();
    NYUParser *p = new NYUParser();
@@ -37,6 +37,12 @@ Scene * Scene::read(std::string filename)
    }
    printf("Using input file %s.\n", filename.c_str());
    p->parse(in, *ret);
+   ret->cam.look_at += vec3(0.f, 0.f, offset);
+   ret->cam.loc += vec3(0.f, 0.f, offset);
+   for (int i = 0; i < (int)ret->lVec.size(); i++)
+   {
+      ret->lVec[i]->loc += vec3(0.f, 0.f, offset);
+   }
    delete p;
    return ret;
 }

@@ -20,7 +20,8 @@ float Geometry::getDist(vec3 *pt, vec3 *dir)
    return dist(pt, dir);
    */
    //vec3 m = vec3(invTrans * vec4(*pt, 1.f));
-   vec3 m = vec3(invTrans * vec4(*pt, 1.f));
+
+   vec3 m = *pt;
 
    if (isMod)
    {
@@ -29,13 +30,15 @@ float Geometry::getDist(vec3 *pt, vec3 *dir)
       m.y = mod((m.y), spacing) - spacing / 2.f;
       m.z = mod((m.z), spacing) - spacing / 2.f;
    }
+   
+   m = vec3(invTrans * vec4(m, 1.f));
 
    if (dir == NULL)
    {
       float d1, d2;
       if (csg_sub)
       {
-         d1 = csg_sub->dist(&m, dir);
+         d1 = csg_sub->getDist(&m, dir);
          d2 = dist(&m, dir);
          return std::max(-d1, d2);
       }
@@ -49,7 +52,7 @@ float Geometry::getDist(vec3 *pt, vec3 *dir)
    float d1, d2;
    if (csg_sub)
    {
-      d1 = csg_sub->dist(&m, dir);
+      d1 = csg_sub->getDist(&m, dir);
       d2 = dist(&m, dir);
       return std::max(-d1, d2);
    }

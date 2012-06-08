@@ -25,6 +25,8 @@ int width = DEFAULT_W;
 int height = DEFAULT_H;
 float falloff = DEFAULT_FALLOFF;
 float intensity = DEFAULT_INTENSITY;
+float offset = 0.0f;
+bool doNoOcclude = false;
 std::string inputFileName;
 std::string filename, noOccludeFilename;
 Scene *scene;
@@ -42,10 +44,14 @@ int main(int argc, char **argv)
    srand((int)time(NULL));
 
    int c;
-   while ((c = getopt(argc, argv, "f:F:i:I:h:H:p:P:w:W:")) != -1)
+   while ((c = getopt(argc, argv, "aAf:F:i:I:h:H:o:O:p:P:w:W:")) != -1)
    {
       switch (c)
       {
+      // Do only "Ambient occlusion".
+      case 'a': case 'A':
+         doNoOcclude = !doNoOcclude;
+         break;
       // "Falloff" (ambient occlusion).
       case 'f': case 'F':
          setFalloff(optarg);
@@ -66,6 +72,10 @@ int main(int argc, char **argv)
       case 'w': case 'W':
          setWidth(optarg);
          break;
+      // "Offset".
+      case 'o': case 'O':
+         offset = atof(optarg);
+         break;
       default:
          fprintf(stderr, "Invalid command-line argument: %c\n", c);
          exit(EXIT_FAILURE);
@@ -73,9 +83,13 @@ int main(int argc, char **argv)
       }
    }
 
-   // TODO: Initialize image.
+   // Initialize image.
    Image img(width, height, filename);
-   Image noOccludeImg(width, height, noOccludeFilename);
+   Image *noOccludeImg = NULL;
+   if (doNoOcclude)
+   {
+      noOccludeImg = new Image(width, height, noOccludeFilename);
+   }
 
    // Initialize scene.
    initScene();
@@ -166,7 +180,10 @@ int main(int argc, char **argv)
          if (hit)
          {
             img.setPixel(x, y, hitColor);
-            noOccludeImg.setPixel(x, y, noOccludeColor);
+            if (doNoOcclude)
+            {
+               noOccludeImg->setPixel(x, y, noOccludeColor);
+            }
          }
          delete hitColor;
          delete noOccludeColor;
@@ -176,7 +193,11 @@ int main(int argc, char **argv)
 
    // Write image out to file.
    img.write();
-   noOccludeImg.write();
+
+   if (doNoOcclude)
+   {
+      noOccludeImg->write();
+   }
    
    // Cleanup.
    for (int i = 0; i < width; i++)
@@ -263,5 +284,5 @@ float r2d(float rads)
 
 void initScene()
 {
-   scene = Scene::read(inputFileName.c_str());
+   scene = Scene::read(inputFileName.c_str(), offset);
 }
